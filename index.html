@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sobrevividos</title>
+<meta name="description" content="Mostra virtual de História da Arte I, Desenho Industrial UFSM, 2026/2. Três atos: Constelações, Ver descrever e reimaginar, Atlas Mnemosyne.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400;1,6..96,500&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Plano: sala escura de atlas. Pano negro de Warburg ao fundo, ouro de constelação
+   para relações, vermelho de rubrica medieval para marcar atos. Coluna editorial
+   estreita, com seções "presas" que dão zoom entre os atos. Tema único, escuro. */
+:root{
+  color-scheme: dark;
+  --noite:#070a0f;        /* fundo, o pano do atlas */
+  --painel:#10151d;       /* superfícies */
+  --linha:#263041;        /* fios e bordas */
+  --papel:#ece6d8;        /* texto */
+  --nevoa:#98a1ae;        /* texto secundário */
+  --ouro:#d3ab52;         /* relações, links */
+  --rubrica:#d9553b;      /* numerais dos atos */
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --corpo:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:"DM Mono",ui-monospace,Menlo,Consolas,monospace;
+  --col:min(1120px,100% - 2.5rem);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--noite);color:var(--papel);font:400 1.0625rem/1.65 var(--corpo);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--ouro);text-underline-offset:.2em}
+a:hover{color:var(--papel)}
+:focus-visible{outline:2px solid var(--ouro);outline-offset:3px;border-radius:2px}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{width:var(--col);margin-inline:auto}
+.eyebrow{font:500 .72rem/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--nevoa)}
+.eyebrow b{color:var(--rubrica);font-weight:500}
+#ceu{position:fixed;inset:0;width:100%;height:100%;z-index:-1}
+.skip{position:absolute;left:-999px}
+.skip:focus{left:1rem;top:1rem;z-index:99;background:var(--papel);color:var(--noite);padding:.5rem .8rem}
+
+/* navegação */
+.nav{position:fixed;inset:0 0 auto 0;z-index:20;display:flex;gap:1.5rem;align-items:center;justify-content:space-between;padding:.85rem 1.25rem;background:linear-gradient(#070a0fee,#070a0f00)}
+.nav .marca{font:italic 500 1.05rem var(--display);color:var(--papel);text-decoration:none;white-space:nowrap}
+.nav ul{display:flex;gap:clamp(.7rem,2vw,1.6rem);list-style:none;margin:0;padding:0;font:500 .72rem var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.nav ul a{color:var(--nevoa);text-decoration:none;padding:.4rem 0;position:relative}
+.nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ouro);transform:scaleX(0);transform-origin:left;transition:transform .35s}
+.nav ul a:hover,.nav ul a[aria-current]{color:var(--papel)}
+.nav ul a:hover::after,.nav ul a[aria-current]::after{transform:scaleX(1)}
+.fio{position:fixed;left:0;top:0;height:2px;width:100%;background:var(--ouro);transform:scaleX(0);transform-origin:left;z-index:21}
+@media(max-width:640px){.nav .marca{display:none}.nav{justify-content:center}}
+
+/* abertura */
+.hero{min-height:100vh;display:grid;align-content:end;padding:7rem 0 4rem;position:relative}
+.hero h1{font-size:clamp(3rem,13vw,10rem);overflow-wrap:anywhere;letter-spacing:-.02em}
+.hero h1 em{font-style:italic;color:var(--ouro)}
+.hero .linha{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.5rem;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--linha)}
+.hero .linha p{color:var(--nevoa);font-size:.95rem}
+.hero .linha strong{display:block;color:var(--papel);font-weight:500}
+.desce{position:absolute;right:1.25rem;top:45%;writing-mode:vertical-rl;font:500 .7rem var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--nevoa)}
+.desce::after{content:"";display:inline-block;width:1px;height:56px;background:var(--ouro);margin-top:.8rem;animation:desce 2.2s ease-in-out infinite;transform-origin:top}
+@keyframes desce{0%{transform:scaleY(0)}60%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+/* texto curatorial */
+.curadoria{padding:clamp(5rem,12vw,10rem) 0}
+.curadoria .grade{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.4fr);gap:clamp(1.5rem,5vw,5rem)}
+.curadoria aside{position:sticky;top:6rem;align-self:start}
+.curadoria h2{font-size:clamp(2.2rem,5vw,4rem);font-style:italic;margin-top:.8rem}
+.curadoria .txt{max-width:38em}
+.curadoria .txt p{font:400 clamp(1.25rem,2.1vw,1.7rem)/1.42 var(--display);margin-bottom:1.3em}
+.curadoria .txt p .w{opacity:.26;transition:opacity .25s linear}
+.curadoria .txt p .w.on{opacity:1}
+.curadoria .txt b{font-weight:400;color:var(--ouro)}
+.ouvir{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+.ouvir .btn{padding:.75rem 1rem}
+.ouvir .ic{display:inline-block;width:1em;text-align:center}
+.ouvir-st{flex-basis:100%;font:500 .7rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--nevoa);min-height:1em}
+.curadoria .txt p{transition:color .4s}
+.curadoria .txt.falando p:not(.lendo){color:var(--nevoa)}
+.curadoria .txt.falando p .w{opacity:1}
+.curadoria .txt p.lendo{position:relative}
+.curadoria .txt p.lendo::before{content:"";position:absolute;left:-1.2rem;top:.3em;bottom:.3em;width:2px;background:var(--ouro);animation:pulsa 1.4s ease-in-out infinite}
+@keyframes pulsa{50%{opacity:.3}}
+.curadoria .assina{font:500 .78rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--nevoa);border-top:1px solid var(--linha);padding-top:1rem}
+@media(max-width:800px){.curadoria .grade{grid-template-columns:1fr}.curadoria aside{position:static}}
+
+/* portais dos atos: seção presa com zoom */
+.portal{height:230vh;position:relative}
+.portal .preso{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center;text-align:center}
+.portal .num{position:absolute;font:italic 400 clamp(14rem,48vw,34rem)/1 var(--display);color:transparent;-webkit-text-stroke:1px var(--rubrica);will-change:transform,opacity;user-select:none}
+.portal .tit{position:relative;padding:0 1.25rem;will-change:transform,opacity}
+.portal .tit h2{font-size:clamp(2.6rem,8.5vw,7.5rem)}
+.portal .tit h2 em{color:var(--ouro)}
+.portal .tit p{margin:1.2rem auto 0;max-width:34em;color:var(--nevoa)}
+
+/* corpo dos atos */
+.ato{padding:clamp(3rem,8vw,7rem) 0 clamp(5rem,10vw,9rem)}
+.intro{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(1.5rem,4vw,4rem);align-items:end;margin-bottom:clamp(2.5rem,6vw,5rem)}
+.intro h3{font-size:clamp(2rem,4.5vw,3.6rem)}
+.intro p{color:var(--nevoa);max-width:36em}
+.btn{display:inline-flex;align-items:center;gap:.7rem;font:500 .78rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--noite);background:var(--ouro);padding:.95rem 1.3rem;text-decoration:none;border:0;cursor:pointer;transition:background .25s,gap .25s}
+.btn:hover{background:var(--papel);color:var(--noite);gap:1.1rem}
+.btn.fantasma{background:none;color:var(--papel);box-shadow:inset 0 0 0 1px var(--linha)}
+.btn.fantasma:hover{box-shadow:inset 0 0 0 1px var(--ouro);background:none;color:var(--ouro)}
+
+/* ato I: rede */
+.rede{position:relative;border:1px solid var(--linha);background:#0a0e15cc;aspect-ratio:16/8;min-height:340px;overflow:hidden}
+.rede svg{position:absolute;inset:0;width:100%;height:100%}
+.rede line{stroke:var(--ouro);stroke-width:.18;opacity:.55;transition:opacity .3s,stroke-width .3s}
+.rede line.apaga{opacity:.08}.rede line.acende{opacity:1;stroke-width:.34}
+.rede .no{cursor:pointer}
+.rede .no circle{fill:var(--papel);transition:r .3s,fill .3s}
+.rede .no:hover circle,.rede .no:focus circle,.rede .no.acende circle{fill:var(--ouro);r:1.5}
+.rede .no text{font:500 2.1px var(--mono);letter-spacing:.12em;text-transform:uppercase;fill:var(--nevoa);transition:fill .3s}
+.rede .no:hover text,.rede .no:focus text,.rede .no.acende text{fill:var(--papel)}
+.rede .no:focus{outline:none}
+.rede .dica{position:absolute;left:1rem;bottom:.8rem}
+.tres{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;margin-top:2.5rem;border-top:1px solid var(--linha)}
+.tres div{padding:1.5rem 1.5rem 1.5rem 0;border-bottom:1px solid var(--linha)}
+.tres h4{font:italic 400 1.7rem var(--display);margin:.3rem 0 .5rem}
+.tres p{color:var(--nevoa);font-size:.96rem}
+.acoes{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2.5rem}
+
+/* molduras de imagem */
+.quadro{position:relative;overflow:hidden;background:var(--painel);border:1px solid var(--linha);cursor:zoom-in;padding:0;display:block;width:100%;color:inherit;font:inherit}
+.quadro .dentro{position:absolute;inset:-9% 0;will-change:transform;transition:filter .5s}
+.quadro canvas,.quadro img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s cubic-bezier(.2,.7,.1,1)}
+.quadro:hover canvas,.quadro:hover img,.quadro:focus-visible canvas,.quadro:focus-visible img{transform:scale(1.07)}
+.quadro .lupa{position:absolute;right:.6rem;bottom:.6rem;font:500 .65rem var(--mono);letter-spacing:.12em;text-transform:uppercase;background:#070a0fcc;padding:.35rem .5rem;opacity:0;transform:translateY(6px);transition:.3s}
+.quadro:hover .lupa,.quadro:focus-visible .lupa{opacity:1;transform:none}
+.quadro .vago{position:absolute;left:.6rem;top:.6rem;font:500 .62rem var(--mono);letter-spacing:.1em;text-transform:uppercase;background:var(--rubrica);color:var(--noite);padding:.25rem .45rem}
+
+/* ato II: tríptico original > descrição > nova imagem */
+.trad{display:grid;grid-template-columns:1fr 1.05fr 1fr;gap:clamp(1rem,2.5vw,2.2rem);align-items:center;padding:clamp(2.5rem,6vw,5rem) 0;border-top:1px solid var(--linha)}
+.trad .quadro{aspect-ratio:4/5}
+.trad:nth-child(even) .quadro:first-child{margin-top:4rem}
+.trad:nth-child(odd) .quadro:last-child{margin-top:4rem}
+.trad figure{margin:0}
+.trad figcaption{margin-top:.7rem;font-size:.86rem;color:var(--nevoa)}
+.trad figcaption strong{color:var(--papel);font-weight:500;display:block}
+.desc{position:relative;padding:1.4rem 0}
+.desc::before,.desc::after{content:"";position:absolute;top:0;height:1px;width:100%;background:var(--ouro);transform:scaleX(var(--p,1));transform-origin:left}
+.desc::after{top:auto;bottom:0;transform-origin:right}
+.desc blockquote{margin:.8rem 0 1rem;font:400 .98rem/1.7 var(--mono);color:var(--papel)}
+.desc .por{font-size:.86rem;color:var(--nevoa)}
+@media(max-width:820px){.trad{grid-template-columns:1fr 1fr}.desc{grid-column:1/-1;order:3}.trad .quadro{margin-top:0!important}}
+
+/* ato II: galeria do Redesenhar. A imagem aparece inteira, sem corte */
+.galeria{columns:3 300px;column-gap:clamp(1.2rem,3vw,2.6rem)}
+.obra{break-inside:avoid;margin:0 0 clamp(2rem,5vw,3.6rem);will-change:transform}
+.moldura{display:block;width:100%;padding:clamp(.6rem,1.4vw,1rem);background:#0c1017;border:1px solid var(--linha);cursor:zoom-in;position:relative;transition:transform .5s cubic-bezier(.2,.7,.1,1),box-shadow .5s,border-color .5s}
+.moldura img{width:100%;height:auto;display:block}
+.moldura:hover,.moldura:focus-visible{transform:translateY(-6px);border-color:var(--ouro);box-shadow:0 30px 60px -30px #000,0 0 0 1px #d3ab5233}
+.moldura .lupa{position:absolute;right:1.2rem;bottom:1.2rem;font:500 .65rem var(--mono);letter-spacing:.12em;text-transform:uppercase;background:#070a0fcc;color:var(--papel);padding:.35rem .5rem;opacity:0;transform:translateY(6px);transition:.3s}
+.moldura:hover .lupa,.moldura:focus-visible .lupa{opacity:1;transform:none}
+.obra figcaption{display:flex;flex-wrap:wrap;gap:.2rem .6rem;align-items:baseline;margin-top:.7rem;font-size:.9rem}
+.obra figcaption strong{font:400 1.15rem var(--display);color:var(--papel)}
+.obra figcaption .sem{color:var(--nevoa);font-style:italic}
+.obra figcaption em{flex-basis:100%;color:var(--nevoa);font-size:.85rem}
+
+/* ato III: painéis do atlas */
+.etapas{display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;list-style:none;padding:1rem 0;margin:0 0 1rem;border-block:1px solid var(--linha);font:500 .72rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--nevoa);counter-reset:e}
+.etapas li{counter-increment:e}
+.etapas li::before{content:counter(e,decimal-leading-zero) " ";color:var(--rubrica)}
+.atlas{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(1.5rem,4vw,4rem);padding:clamp(3rem,7vw,6rem) 0;align-items:center}
+.atlas:nth-of-type(even) .pano{order:2}
+.pano{position:relative;aspect-ratio:5/4;background:#000;border:1px solid var(--linha);box-shadow:0 40px 80px -40px #000}
+.pano .quadro{position:absolute;border-color:#3a3a3a}
+.pano .quadro .dentro{inset:0}
+.pano .n{position:absolute;left:.7rem;top:.5rem;font:500 .68rem var(--mono);letter-spacing:.14em;color:var(--nevoa)}
+.ficha h4{font:400 clamp(1.8rem,3.4vw,2.8rem)/1.05 var(--display);margin:.5rem 0 1rem}
+.ficha .perg{font:italic 400 1.2rem/1.4 var(--display);color:var(--ouro);margin-bottom:1rem}
+.ficha p{color:var(--nevoa);font-size:.96rem}
+.ficha .peca{margin-top:1.6rem;display:grid;grid-template-columns:120px 1fr;gap:1rem;align-items:center;padding-top:1.2rem;border-top:1px solid var(--linha)}
+.ficha .peca .quadro{aspect-ratio:1}
+.ficha .peca strong{display:block;color:var(--papel);font-weight:500}
+@media(max-width:820px){.atlas{grid-template-columns:1fr}.atlas:nth-of-type(even) .pano{order:0}}
+
+/* podcasts */
+.pods{list-style:none;margin:0;padding:0;border-top:1px solid var(--linha)}
+.pods a{display:grid;grid-template-columns:3.2rem 1fr auto;gap:1rem;align-items:center;padding:1.25rem .25rem;border-bottom:1px solid var(--linha);text-decoration:none;color:var(--papel);transition:padding .35s,background .35s}
+.pods a:hover,.pods a:focus-visible{padding-left:1rem;background:#d3ab5210}
+.pods .ep{font:500 .72rem var(--mono);letter-spacing:.12em;color:var(--rubrica)}
+.pods .par{font:400 clamp(1.3rem,3vw,2.2rem)/1.1 var(--display)}
+.pods .par i{color:var(--ouro);font-size:.7em;padding:0 .35em}
+.pods small{display:block;font:400 .82rem var(--corpo);color:var(--nevoa);margin-top:.3rem}
+.eq{display:flex;gap:3px;align-items:flex-end;height:22px}
+.eq span{width:3px;height:30%;background:var(--ouro);transform-origin:bottom}
+.pods a:hover .eq span,.pods a:focus-visible .eq span{animation:eq .7s ease-in-out infinite alternate}
+.eq span:nth-child(2){animation-delay:.15s!important;height:70%}.eq span:nth-child(3){animation-delay:.3s!important;height:45%}.eq span:nth-child(4){animation-delay:.45s!important;height:90%}
+@keyframes eq{to{height:100%}}
+
+/* pessoas */
+.gente{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:2.2rem 1.4rem}
+.pessoa .foto{aspect-ratio:4/5;position:relative;overflow:hidden;background:var(--painel);border:1px solid var(--linha);display:grid;place-items:center}
+.pessoa .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);transition:filter .5s,transform .8s}
+.pessoa:hover .foto img{filter:none;transform:scale(1.05)}
+.pessoa .foto span{font:italic 400 4.5rem var(--display);color:var(--linha);transition:color .4s,transform .6s}
+.pessoa:hover .foto span{color:var(--ouro);transform:scale(1.15) rotate(-4deg)}
+.pessoa h4{font:400 1.35rem/1.15 var(--display);margin:.8rem 0 .15rem}
+.pessoa .papel{font:500 .68rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--nevoa)}
+.pessoa ul{list-style:none;display:flex;flex-wrap:wrap;gap:.2rem .9rem;margin:.5rem 0 0;padding:0;font-size:.86rem}
+.nota{margin-top:2.5rem;padding:1rem 1.2rem;border-left:2px solid var(--rubrica);background:var(--painel);color:var(--nevoa);font-size:.9rem;max-width:50em}
+.nota code{font:400 .85em var(--mono);color:var(--papel)}
+
+.spoiler{padding:clamp(4rem,9vw,7rem) 0;border-top:1px solid var(--linha);text-align:center}
+.spoiler h3{font-size:clamp(2.2rem,5vw,4rem);font-style:italic;margin:.8rem 0 2rem}
+.sp-btn{position:relative;overflow:hidden}
+.sp-btn::before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,#fff8 50%,transparent 70%);transform:translateX(-100%);animation:brilho 3.2s ease-in-out infinite}
+@keyframes brilho{0%,55%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.sp-seta{transition:transform .4s}
+.sp-btn[aria-expanded="true"] .sp-seta{transform:rotate(180deg)}
+.sp-painel{max-width:36em;margin:2.5rem auto 0;padding:2rem 1.5rem;border:1px solid var(--ouro);background:var(--painel);animation:abre .8s cubic-bezier(.2,.7,.1,1)}
+@keyframes abre{from{clip-path:inset(0 50% 0 50%);opacity:0}to{clip-path:inset(0 0 0 0);opacity:1}}
+.sp-grande{font:400 clamp(3rem,9vw,6rem)/1 var(--display);margin:.6rem 0 1rem}
+.sp-grande em{color:var(--ouro)}
+.sp-txt{color:var(--nevoa)}
+footer{border-top:1px solid var(--linha);padding:3rem 0 4rem;background:#070a0fdd}
+footer .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2rem}
+footer p{color:var(--nevoa);font-size:.9rem}
+footer .fim{font:italic 400 clamp(1.8rem,4vw,3rem)/1.1 var(--display);color:var(--papel)}
+
+/* lupa (zoom) */
+dialog{border:0;padding:0;background:#05070bf5;color:var(--papel);width:100vw;height:100vh;max-width:none;max-height:none}
+dialog::backdrop{background:#000c}
+dialog .palco{position:absolute;inset:0;overflow:auto;display:grid;place-items:center;padding:4rem 1rem 5rem}
+dialog canvas,dialog img{max-width:none;width:min(80vh,88vw);transition:width .35s cubic-bezier(.2,.7,.1,1);cursor:zoom-in;border:1px solid var(--linha)}
+dialog .barra{position:fixed;left:0;right:0;bottom:0;display:flex;gap:.6rem;align-items:center;justify-content:space-between;padding:.8rem 1.25rem;background:#070a0f}
+dialog .barra p{font-size:.88rem;color:var(--nevoa)}
+dialog .barra div{display:flex;gap:.4rem}
+dialog button{font:500 .8rem var(--mono);background:none;color:var(--papel);border:1px solid var(--linha);min-width:2.6rem;height:2.6rem;cursor:pointer;padding:0 .8rem}
+dialog button:hover{border-color:var(--ouro);color:var(--ouro)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none!important;transition:none!important}
+  .portal{height:auto}.portal .preso{position:static;height:auto;padding:6rem 0}
+  .portal .num{position:static;font-size:8rem;display:block}
+  .curadoria .txt p .w{opacity:1}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#curadoria">Pular para o texto curatorial</a>
+<canvas id="ceu" aria-hidden="true"></canvas>
+<div class="fio" id="fio" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="Seções da mostra">
+  <a class="marca" href="#topo">Sobrevividos</a>
+  <ul>
+    <li><a href="#ato-1">Ato I</a></li>
+    <li><a href="#ato-2">Ato II</a></li>
+    <li><a href="#ato-3">Ato III</a></li>
+    <li><a href="#podcasts">Podcasts</a></li>
+    <li><a href="#pessoas">Pessoas</a></li>
+  </ul>
+</nav>
+
+<header class="hero" id="topo">
+  <div class="wrap">
+    <p class="eyebrow"><b>Mostra virtual</b> · História da Arte I · 2026/2</p>
+    <h1 data-par="-0.12">Sobre<em>vividos</em></h1>
+    <div class="linha">
+      <p><strong>Desenho Industrial · UFSM</strong>Atlas, história da arte e design</p>
+      <p><strong>Três atos</strong>Constelações · Redesenhar · Atlas Mnemosyne</p>
+      <p><strong>Abertura em 27 de novembro de 2026</strong>Encontro 15, mostra e roda de síntese</p>
+    </div>
+  </div>
+  <span class="desce" aria-hidden="true">role para entrar</span>
+</header>
+
+<main>
+<section class="curadoria" id="curadoria">
+  <div class="wrap grade">
+    <aside>
+      <p class="eyebrow"><b>Texto curatorial</b></p>
+      <h2>Nenhuma imagem chega sozinha</h2>
+      <div class="ouvir" id="ouvir">
+        <button type="button" class="btn fantasma" id="ouvirBtn" aria-controls="txt"><span class="ic" aria-hidden="true">▶</span> <span class="rot">Ouvir o texto</span></button>
+        <button type="button" class="btn fantasma" id="pararBtn" hidden>Parar</button>
+        <p class="ouvir-st" id="ouvirSt" aria-live="polite"></p>
+      </div>
+    </aside>
+    <div class="txt" id="txt">
+      <p>Esta mostra fecha um semestre que começou sem slide nenhum. Na primeira sexta-feira, com <b>John Dewey</b>, combinamos que a arte é experiência antes de ser explicação. Depois saímos da sala três vezes. Na aula 5, fomos ao Jardim Botânico procurar padrões onde ninguém havia pendurado legenda. Na aula 10, ao MASM, o Museu de Arte de Santa Maria, para ficar diante das obras e não de suas reproduções. Na aula 12, ao Acervo da UFSM, onde a universidade guarda a própria memória. Entre uma saída e outra, abrimos os livros, ouvimos podcasts e discutimos, em roda, autores muito diversos entre si.</p>
+      <p>Os podcasts os colocaram em conversa, para que nenhum falasse sozinho. <b>Janson</b> nos entregou a grande narrativa, com começo, meio e cânone. <b>Hans Belting</b> lembrou que, durante séculos, as imagens foram presença e culto antes de serem chamadas de arte. <b>Gombrich</b> contou a história como uma sucessão de artistas resolvendo problemas. <b>Wölfflin</b> nos ensinou a ver a forma, do linear ao pictórico, quase sem precisar de nomes, e Dewey perguntou o que essa forma faz com quem a vive.</p>
+      <p>No centro do semestre está <b>Aby Warburg</b> e seu Atlas Mnemosyne: painéis negros onde imagens de épocas distantes se tocam, e onde o intervalo entre elas também pensa. Gombrich, seu biógrafo, nos ajudou a ler esse gesto com alguma distância. <b>Argan</b> mostrou que a história da arte é também a história da cidade.</p>
+      <p>Ao redor deles, outras vozes sustentaram a conversa. <b>Linda Nochlin</b>, que pergunta quem ficou fora do cânone e quem decidiu isso. E <b>Ailton Krenak</b>, que nos pede para adiar o fim do mundo e pensar além do humano.</p>
+      <p>A mostra tem três atos. No primeiro, a plataforma Constelações, onde relacionar imagens é uma forma de conhecê-las. No segundo, um jogo de tradução: alguém descreve uma obra sem dizer seu nome, outra pessoa a refaz só com esse texto, às vezes com a ajuda de uma IA. O que se expõe é o desvio entre a obra e a sua volta. No terceiro, os Atlas Mnemosyne da turma e as peças de design que nasceram deles, digitais ou não.</p>
+      <p>Somos um curso de Desenho Industrial. Estudamos história da arte porque todo objeto, toda interface, toda embalagem carrega imagens mais velhas do que quem a projetou. O que você vai ver aqui são estudantes aprendendo a reconhecer essas sobrevivências e a decidir, com responsabilidade, o que fazer com elas.</p>
+      <p class="assina">Curadoria · Profa. Dra. Débora Aita Gasparetto · Santa Maria, primavera de 2026</p>
+    </div>
+  </div>
+</section>
+
+<!-- ATO I -->
+<section class="portal" id="ato-1" aria-labelledby="t1">
+  <div class="preso">
+    <span class="num" aria-hidden="true">I</span>
+    <div class="tit">
+      <p class="eyebrow"><b>Ato I</b> · a plataforma</p>
+      <h2 id="t1">O pensamento <em>por imagens</em></h2>
+      <p>Constelações, um atlas planetário da cultura visual, inspirado em Aby Warburg e ampliado para o presente.</p>
+    </div>
+  </div>
+</section>
+<section class="ato">
+  <div class="wrap">
+    <div class="intro">
+      <h3>As relações entre as imagens importam tanto quanto as imagens.</h3>
+      <p>A plataforma mapeia constelações de obras, artistas, memórias e futuros possíveis. Cada estudante pode montar seu atlas pessoal num mural infinito, sem alterar o acervo curado. Passe o cursor pelos pontos: são os meios que atravessamos no semestre.</p>
+    </div>
+    <div class="rede" id="rede">
+      <svg viewBox="0 0 100 50" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Rede de meios estudados no semestre"></svg>
+      <p class="eyebrow dica">passe o cursor ou use Tab</p>
+    </div>
+    <div class="tres">
+      <div><p class="eyebrow"><b>01</b></p><h4>Relações</h4><p>Obras, artistas, conceitos e tecnologias ligados em rede, sem hierarquia fixa.</p></div>
+      <div><p class="eyebrow"><b>02</b></p><h4>Atlas pessoais</h4><p>Um mural infinito onde cada estudante constrói suas próprias constelações visuais.</p></div>
+      <div><p class="eyebrow"><b>03</b></p><h4>Curadoria</h4><p>Um fluxo colaborativo entre estudantes e curadoria, do rascunho à publicação.</p></div>
+    </div>
+    <div class="acoes">
+      <a class="btn" href="https://constelacoes-gray.vercel.app/" target="_blank" rel="noopener">Entrar na plataforma <span aria-hidden="true">→</span></a>
+      <a class="btn fantasma" href="https://historiadaarte1-2026.vercel.app/" target="_blank" rel="noopener">Ver o semestre aula a aula</a>
+    </div>
+  </div>
+</section>
+
+<!-- ATO II -->
+<section class="portal" id="ato-2" aria-labelledby="t2">
+  <div class="preso">
+    <span class="num" aria-hidden="true">II</span>
+    <div class="tit">
+      <p class="eyebrow"><b>Ato II</b> · fase 02</p>
+      <h2 id="t2"><em>Redesenhar</em></h2>
+      <p>Uma pessoa descreve uma obra sem dizer o nome, a autoria ou o período. Outra a refaz só a partir do texto.</p>
+    </div>
+  </div>
+</section>
+<section class="ato">
+  <div class="wrap">
+    <div class="intro">
+      <h3>Cada desenho nasceu de um texto, e não de uma imagem.</h3>
+      <p>Quem desenhou não viu a obra de partida: recebeu só a descrição escrita por um colega, sem nome, sem autoria, sem período. O que está aqui é a imagem que voltou, com tudo o que a palavra deixou passar e tudo o que inventou. Clique em qualquer desenho para ampliar.</p>
+    </div>
+    <div class="galeria" id="galeria"></div>
+  </div>
+</section>
+
+<!-- ATO III -->
+<section class="portal" id="ato-3" aria-labelledby="t3">
+  <div class="preso">
+    <span class="num" aria-hidden="true">III</span>
+    <div class="tit">
+      <p class="eyebrow"><b>Ato III</b> · montagem e projeto</p>
+      <h2 id="t3">Atlas <em>Mnemosyne</em></h2>
+      <p>Sobrevivências da história da arte no design: os painéis da turma e as peças que nasceram deles.</p>
+    </div>
+  </div>
+</section>
+<section class="ato">
+  <div class="wrap">
+    <div class="intro">
+      <h3>Do painel negro ao objeto projetado.</h3>
+      <p>Cada atlas parte de uma forma, gesto ou questão que se repete no tempo, reúne de 20 a 30 imagens, monta um painel e termina numa peça de design: objeto, sistema visual, espaço ou interface.</p>
+    </div>
+    <ol class="etapas" aria-label="As sete etapas do atlas">
+      <li>Problema visual</li><li>Pesquisa e coleta</li><li>Seleção e critérios</li><li>Montagem do painel</li><li>Texto crítico</li><li>Desdobramento projetual</li><li>Curadoria e exposição</li>
+    </ol>
+    <div id="atlas"></div>
+  </div>
+</section>
+
+<!-- PODCASTS -->
+<section class="ato" id="podcasts" aria-labelledby="tp">
+  <div class="wrap">
+    <div class="intro">
+      <div><p class="eyebrow"><b>Para ouvir</b> · seis encontros</p><h3 id="tp">Autores em conversa</h3></div>
+      <p>Os podcasts do semestre colocam autores muito diversos na mesma sala. Eles abrem a leitura e não a substituem. Todos os episódios estão na pasta da disciplina.</p>
+    </div>
+    <ul class="pods" id="pods"></ul>
+  </div>
+</section>
+
+<!-- PESSOAS -->
+<section class="ato" id="pessoas" aria-labelledby="tg">
+  <div class="wrap">
+    <div class="intro">
+      <div><p class="eyebrow"><b>Quem fez</b></p><h3 id="tg">As pessoas desta mostra</h3></div>
+      <p>Estudantes de História da Arte I do curso de Desenho Industrial da UFSM, semestre 2026/2, e a professora da disciplina.</p>
+    </div>
+    <div class="gente" id="gente"></div>
+    <p class="nota" id="nota"></p>
+  </div>
+</section>
+</main>
+
+<section class="spoiler" id="spoiler" aria-labelledby="ts">
+  <div class="wrap">
+    <p class="eyebrow"><b>Em movimento</b> · a mostra continua</p>
+    <h3 id="ts">O que vem depois?</h3>
+    <button type="button" class="btn sp-btn" id="spBtn" aria-expanded="false" aria-controls="spPainel">
+      <span class="sp-tx">Ver spoiler do próximo semestre</span> <span aria-hidden="true" class="sp-seta">↓</span>
+    </button>
+    <div class="sp-painel" id="spPainel" hidden>
+      <p class="eyebrow"><b>Spoiler</b> · semestre que vem</p>
+      <p class="sp-grande">A <em>Feira</em>.</p>
+      <p class="sp-txt">Esta mostra não fecha: entra em movimento. No próximo semestre, as imagens que sobreviveram aqui saem da tela e vão para a feira.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="fim">As imagens continuam depois que a mostra fecha.</p>
+    <p>História da Arte I · Bacharelado em Desenho Industrial · Universidade Federal de Santa Maria · 2026/2<br>Concepção e curadoria: Profa. Dra. Débora Aita Gasparetto</p>
+    <p><a href="https://constelacoes-gray.vercel.app/" target="_blank" rel="noopener">Constelações</a><br><a href="https://historiadaarte1-2026.vercel.app/" target="_blank" rel="noopener">Site da disciplina</a><br><a href="https://drive.google.com/drive/folders/1hiylfanA_zHAY9gtMd0V8qlQrfW1I573" target="_blank" rel="noopener">Pasta de podcasts</a></p>
+  </div>
+</footer>
+
+<dialog id="lupa" aria-label="Imagem ampliada">
+  <div class="palco" id="palco"></div>
+  <div class="barra">
+    <p id="lupaLeg"></p>
+    <div><button type="button" id="zm" aria-label="Diminuir">−</button><button type="button" id="zp" aria-label="Aumentar">+</button><button type="button" id="zx">Fechar</button></div>
+  </div>
+</dialog>
+
+<script>
+/* =====================================================================
+   CONTEÚDO DA MOSTRA — edite só este bloco.
+   Deixe img/foto vazio ("") para manter o espaço reservado desenhado.
+   Com arquivos: coloque em /img e escreva o caminho, ex. "img/ana-original.jpg".
+   ===================================================================== */
+const AUDIO_CURADORIA = ""; // gravação da curadora lendo o texto, ex. "audio/curadoria.mp3". Vazio = voz do navegador
+const PASTA_PODCASTS = "https://drive.google.com/drive/folders/1hiylfanA_zHAY9gtMd0V8qlQrfW1I573";
+
+const OBRAS = [ // Ato II: desenhos da fase 02, Redesenhar. Preencha autoria e obraDePartida quando tiver
+  {img:"img/redesenho-01.jpg", w:1600, h:1111, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-02.jpg", w:1208, h:1600, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-03.jpg", w:1294, h:1286, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-04.jpg", w:1071, h:1600, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-05.jpg", w:1153, h:1600, autoria:"Gabrielli R", obraDePartida:""},
+  {img:"img/redesenho-06.jpg", w:1600, h:1094, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-07.jpg", w:1600, h:1214, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-08.jpg", w:1600, h:1085, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-09.jpg", w:1600, h:1111, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-10.jpg", w:1150, h:1600, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-11.jpg", w:1202, h:1600, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-12.jpg", w:1600, h:1162, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-13.jpg", w:1600, h:1080, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-14.jpg", w:1208, h:1600, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-15.jpg", w:1600, h:1126, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-16.jpg", w:1101, h:1600, autoria:"", obraDePartida:""},
+  {img:"img/redesenho-17.jpg", w:1600, h:1120, autoria:"", obraDePartida:""},
+];
+
+const ATLAS = [ // Ato III: um item por atlas (individual ou dupla)
+  { titulo:"Título do atlas", autoria:"Nome da/o estudante ou dupla",
+    pergunta:"Qual forma, gesto ou questão se repete ao longo do tempo?",
+    texto:"Trecho do texto crítico que sustenta a montagem e liga teoria e prática.",
+    painel:["","","","","","",""], // imagens do painel (até 7 aparecem)
+    peca:{titulo:"Desdobramento projetual", credito:"Objeto, sistema visual, espaço ou interface", img:""} },
+  { titulo:"Título do atlas", autoria:"Nome da/o estudante ou dupla",
+    pergunta:"Como essa sobrevivência opera num objeto de design de hoje?",
+    texto:"Trecho do texto crítico que sustenta a montagem e liga teoria e prática.",
+    painel:["","","","","","",""],
+    peca:{titulo:"Desdobramento projetual", credito:"Objeto, sistema visual, espaço ou interface", img:""} },
+];
+
+const PESSOAS = [ // foto + nome + links
+  { nome:"Débora Aita Gasparetto", papel:"Professora · curadoria", foto:"",
+    links:[{rotulo:"Constelações",url:"https://constelacoes-gray.vercel.app/"},{rotulo:"Disciplina",url:"https://historiadaarte1-2026.vercel.app/"}] },
+  { nome:"Nome da/o estudante", papel:"Estudante", foto:"", links:[{rotulo:"Portfólio",url:"#pessoas"},{rotulo:"Instagram",url:"#pessoas"}] },
+  { nome:"Nome da/o estudante", papel:"Estudante", foto:"", links:[{rotulo:"Portfólio",url:"#pessoas"},{rotulo:"Behance",url:"#pessoas"}] },
+  { nome:"Nome da/o estudante", papel:"Estudante", foto:"", links:[{rotulo:"Portfólio",url:"#pessoas"}] },
+  { nome:"Nome da/o estudante", papel:"Estudante", foto:"", links:[{rotulo:"Portfólio",url:"#pessoas"}] },
+  { nome:"Nome da/o estudante", papel:"Estudante", foto:"", links:[{rotulo:"Portfólio",url:"#pessoas"}] },
+];
+
+const PODCASTS = [ // link:"" abre a pasta; troque pelo link do arquivo de cada episódio
+  {a:"Janson", b:"Hans Belting", tema:"A grande narrativa e a imagem antes da era da arte", data:"28/08", link:""},
+  {a:"Gombrich", b:"", tema:"A história da arte contada como sucessão de problemas", data:"11/09", link:""},
+  {a:"Heinrich Wölfflin", b:"John Dewey", tema:"Conceitos da forma e arte como experiência", data:"25/09", link:""},
+  {a:"Aby Warburg", b:"Gombrich", tema:"O atlas e seu biógrafo", data:"02/10", link:""},
+  {a:"Argan", b:"", tema:"A história da arte como história da cidade", data:"16/10", link:""},
+  {a:"Gombrich ou Janson", b:"", tema:"Retomada: a narrativa da história da arte", data:"06/11", link:""},
+];
+/* ===================== fim do conteúdo ===================== */
+
+const calmo = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $ = (s, r=document) => r.querySelector(s);
+const el = (tag, cls, html) => { const e=document.createElement(tag); if(cls) e.className=cls; if(html!=null) e.innerHTML=html; return e; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const rnd = seed => () => (seed = (seed*1664525 + 1013904223) % 4294967296) / 4294967296;
+
+/* espaço reservado: composição abstrata desenhada, diferente para cada semente */
+function desenha(cv, seed){
+  const r = rnd(seed*7919+13), W = cv.width = 640, H = cv.height = 800, c = cv.getContext("2d");
+  const tons = [["#1b2330","#d3ab52","#ece6d8"],["#241a1a","#d9553b","#ece6d8"],["#141d1c","#7fa39a","#d3ab52"],["#1d1a26","#a99bd0","#d9553b"]][seed%4];
+  c.fillStyle = tons[0]; c.fillRect(0,0,W,H);
+  for(let i=0;i<5;i++){ c.globalAlpha=.12+r()*.3; c.fillStyle=tons[1+(i%2)];
+    const x=r()*W, y=r()*H, s=80+r()*260, k=Math.floor(r()*3);
+    c.beginPath();
+    if(k===0) c.arc(x,y,s/2,0,7);
+    else if(k===1){ c.moveTo(x-s/2,y+s/2); c.lineTo(x-s/2,y-s/4); c.arc(x,y-s/4,s/2,Math.PI,0); c.lineTo(x+s/2,y+s/2); } // arco
+    else c.rect(x-s/2,y-s/3,s,s*.66);
+    c.fill(); }
+  c.globalAlpha=.5; c.strokeStyle=tons[2]; c.lineWidth=1;
+  for(let i=0;i<9;i++){ c.beginPath(); c.moveTo(r()*W,r()*H); c.lineTo(r()*W,r()*H); c.stroke(); }
+  c.globalAlpha=1;
+}
+let semente = 1;
+function quadro(img, legenda, estilo){
+  const b = el("button","quadro"); b.type="button"; if(estilo) b.style.cssText = estilo;
+  b.setAttribute("aria-label","Ampliar: "+legenda); b.dataset.leg = legenda;
+  const d = el("div","dentro"); d.dataset.par = "0.07";
+  if(img){ const i = el("img"); i.src = img; i.alt = legenda; i.loading="lazy"; d.append(i); }
+  else { const cv = el("canvas"); cv.dataset.seed = semente; desenha(cv, semente++); cv.setAttribute("role","img"); cv.setAttribute("aria-label","Espaço reservado para "+legenda); d.append(cv); b.append(el("span","vago","espaço reservado")); }
+  b.prepend(d); b.append(el("span","lupa","ampliar +"));
+  return b;
+}
+
+/* Ato II */
+OBRAS.forEach((o,i) => {
+  const n = String(i+1).padStart(2,"0"), leg = `Redesenho ${n}${o.autoria ? " · " + o.autoria : ""}`;
+  const f = el("figure","obra"); f.dataset.par = [.04,-.03,.06,-.05,.02][i%5];
+  const b = el("button","moldura"); b.type = "button"; b.dataset.leg = leg; b.setAttribute("aria-label","Ampliar: "+leg);
+  const im = el("img"); im.src = o.img; im.width = o.w; im.height = o.h; im.loading = "lazy"; im.decoding = "async";
+  im.alt = `Redesenho ${n}, desenho feito a partir de uma descrição${o.autoria ? ", por " + o.autoria : ""}`;
+  b.append(im, el("span","lupa","ampliar +"));
+  f.append(b, el("figcaption","",`<span class="eyebrow"><b>${n}</b></span> ${o.autoria ? `<strong>${esc(o.autoria)}</strong>` : `<span class="sem">autoria a confirmar</span>`}${o.obraDePartida ? `<em>a partir de ${esc(o.obraDePartida)}</em>` : ""}`));
+  $("#galeria").append(f);
+});
+
+/* Ato III: posições das imagens no pano (left, top, width, proporção, profundidade) */
+const POS = [[4,10,24,"3/4",.10],[31,6,20,"1/1",-.06],[54,12,17,"3/4",.14],[74,7,22,"4/5",-.10],[8,56,20,"4/3",-.12],[33,44,28,"4/3",.06],[66,52,26,"1/1",.12]];
+ATLAS.forEach((t,i) => {
+  const a = el("article","atlas");
+  const p = el("div","pano"); p.append(el("span","n","PAINEL "+String(i+1).padStart(2,"0")));
+  t.painel.slice(0,7).forEach((img,k) => { const [l,tp,w,ar,dp] = POS[k];
+    const q = quadro(img, `${t.titulo}, imagem ${k+1}`, `left:${l}%;top:${tp}%;width:${w}%;aspect-ratio:${ar}`);
+    q.dataset.par = dp; q.querySelector(".dentro").removeAttribute("data-par"); q.querySelector(".vago")?.remove(); p.append(q); });
+  const f = el("div","ficha",`<p class="eyebrow"><b>Atlas ${String(i+1).padStart(2,"0")}</b> · ${esc(t.autoria)}</p><h4>${esc(t.titulo)}</h4><p class="perg">${esc(t.pergunta)}</p><p>${esc(t.texto)}</p>`);
+  const pc = el("div","peca"); pc.append(quadro(t.peca.img, t.peca.titulo), el("p","",`<strong>${esc(t.peca.titulo)}</strong>${esc(t.peca.credito)}`));
+  f.append(pc); a.append(p,f); $("#atlas").append(a);
+});
+
+/* podcasts */
+PODCASTS.forEach((p,i) => $("#pods").append(el("li","",
+  `<a href="${esc(p.link||PASTA_PODCASTS)}" target="_blank" rel="noopener"><span class="ep">EP ${String(i+1).padStart(2,"0")}</span><span><span class="par">${esc(p.a)}${p.b?`<i>×</i>${esc(p.b)}`:""}</span><small>${esc(p.tema)} · encontro de ${p.data}</small></span><span class="eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span></a>`)));
+
+/* pessoas */
+PESSOAS.forEach(p => {
+  const ini = p.nome.split(" ").filter(w=>/^[A-ZÀ-Ú]/.test(w)).slice(0,2).map(w=>w[0]).join("");
+  const links = p.links.map(l => `<li><a href="${esc(l.url)}"${l.url.startsWith("http")?' target="_blank" rel="noopener"':""}>${esc(l.rotulo)}</a></li>`).join("");
+  $("#gente").append(el("article","pessoa",`<div class="foto">${p.foto?`<img src="${esc(p.foto)}" alt="Retrato de ${esc(p.nome)}" loading="lazy">`:`<span aria-hidden="true">${ini}</span>`}</div><h4>${esc(p.nome)}</h4><p class="papel">${esc(p.papel)}</p><ul>${links}</ul>`));
+});
+if (PESSOAS.some(p => p.nome.startsWith("Nome d")) )
+  $("#nota").innerHTML = "Os trabalhos, nomes e retratos marcados como <b>espaço reservado</b> são exemplos de estrutura. Para trocar, edite as listas <code>OBRAS</code>, <code>ATLAS</code> e <code>PESSOAS</code> no início do script.";
+else $("#nota").remove();
+
+/* Ato I: rede de meios */
+(() => {
+  const svg = $("#rede svg"), NS = "http://www.w3.org/2000/svg";
+  const nos = [["pintura rupestre",10,40],["cerâmica",22,14],["arquitetura clássica",38,30],["iluminura",47,11],["vitral",57,38],["perspectiva",67,17],["drama barroco",78,40],["fotografia",86,12],["colagem construtivista",30,45],["interface",92,30]];
+  const fios = [[0,1],[0,2],[1,3],[2,4],[3,4],[3,5],[4,6],[5,6],[5,7],[7,9],[6,9],[8,2],[8,7],[0,8],[1,9],[4,9]];
+  const L = fios.map(([a,b]) => { const l = document.createElementNS(NS,"line"); l.setAttribute("x1",nos[a][1]); l.setAttribute("y1",nos[a][2]); l.setAttribute("x2",nos[b][1]); l.setAttribute("y2",nos[b][2]); svg.append(l); return l; });
+  const G = nos.map(([n,x,y],i) => { const g = document.createElementNS(NS,"g"); g.setAttribute("class","no"); g.setAttribute("tabindex","0"); g.setAttribute("role","img");
+    const viz = fios.filter(f=>f.includes(i)).map(f=>nos[f[0]===i?f[1]:f[0]][0]); g.setAttribute("aria-label",`${n}, ligado a ${viz.join(", ")}`);
+    g.innerHTML = `<circle cx="${x}" cy="${y}" r="1"/><text x="${x}" y="${y-2.6}" text-anchor="${x>80?"end":x<15?"start":"middle"}">${n}</text>`; svg.append(g);
+    const liga = on => { L.forEach((l,k) => { const m = fios[k].includes(i); l.classList.toggle("acende",on&&m); l.classList.toggle("apaga",on&&!m); });
+      G.forEach((h,k) => h.classList.toggle("acende", on && fios.some(f=>f.includes(i)&&f.includes(k)))); };
+    g.addEventListener("pointerenter",()=>liga(true)); g.addEventListener("pointerleave",()=>liga(false)); g.addEventListener("focus",()=>liga(true)); g.addEventListener("blur",()=>liga(false));
+    return g; });
+})();
+
+/* texto curatorial: palavras acendem com a rolagem */
+const paras = [...document.querySelectorAll("#txt p:not(.assina)")].map(p => {
+  const anda = n => { if(n.nodeType===3){ const f=document.createDocumentFragment(); n.textContent.split(/(\s+)/).forEach(t => { if(!t.trim()) f.append(t); else { const s=el("span","w"); s.textContent=t; f.append(s);} }); n.replaceWith(f); } else [...n.childNodes].forEach(anda); };
+  [...p.childNodes].forEach(anda); return {p, w:[...p.querySelectorAll(".w")]};
+});
+
+/* céu: estrelas em três profundidades, com paralaxe de rolagem e de ponteiro */
+const ceu = $("#ceu"), cx = ceu.getContext("2d"); let estrelas = [], mx = 0, my = 0;
+function monta(){ const d = Math.min(devicePixelRatio||1,2); ceu.width = innerWidth*d; ceu.height = innerHeight*d; cx.setTransform(d,0,0,d,0,0);
+  const r = rnd(42); estrelas = Array.from({length: Math.round(innerWidth*innerHeight/7000)}, () => ({x:r(), y:r(), z:.2+r()*.8, f:r()*6.3, o:r()<.07})); }
+function pintaCeu(t){ const W=innerWidth, H=innerHeight, y=scrollY; cx.clearRect(0,0,W,H);
+  const pts = [];
+  for(const s of estrelas){ const px = (s.x*W + mx*18*s.z + W) % W, py = (((s.y*H*1.6 - y*s.z*.22 + my*12*s.z) % (H*1.6)) + H*1.6) % (H*1.6) - H*.3;
+    const a = (.25+.75*s.z) * (calmo?1:(.75+.25*Math.sin(t/900+s.f)));
+    cx.fillStyle = s.o ? `rgba(211,171,82,${a})` : `rgba(236,230,216,${a*.7})`; cx.beginPath(); cx.arc(px,py,s.o?1.7:.4+s.z*.9,0,7); cx.fill(); if(s.o) pts.push([px,py]); }
+  cx.strokeStyle = "rgba(211,171,82,.16)"; cx.lineWidth = .6; cx.beginPath();
+  for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){ const dx=pts[i][0]-pts[j][0], dy=pts[i][1]-pts[j][1]; if(dx*dx+dy*dy < 190*190){ cx.moveTo(...pts[i]); cx.lineTo(...pts[j]); } }
+  cx.stroke(); }
+
+/* rolagem: progresso, portais com zoom, paralaxe, palavras */
+const lim = (v,a=0,b=1) => Math.min(b,Math.max(a,v));
+const portais = [...document.querySelectorAll(".portal")].map(s => ({s, n:$(".num",s), t:$(".tit",s)}));
+const links = [...document.querySelectorAll(".nav ul a")];
+let pars = [];
+function quadroDeRolagem(t){
+  const H = innerHeight, max = document.documentElement.scrollHeight - H;
+  $("#fio").style.transform = `scaleX(${lim(scrollY/max)})`;
+  if(!calmo){
+    for(const {s,n,t:tit} of portais){ const r = s.getBoundingClientRect(); if(r.bottom<-50||r.top>H+50) continue;
+      const p = lim(-r.top/(r.height-H)), e = p*p;
+      n.style.transform = `scale(${1+e*16}) translateY(${-e*4}%)`; n.style.opacity = lim(1.15-p*1.5);
+      tit.style.transform = `scale(${.86+lim(p*1.4)*.14})`; tit.style.opacity = lim(.4+p*1.6) * lim(1.9 - p*.9); }
+    for(const e of pars){ const r = e.parentElement.getBoundingClientRect(); if(r.bottom<-200||r.top>H+200) continue;
+      const k = +e.dataset.par; e.style.transform = `translate3d(0,${((r.top+r.height/2)-H/2)*-k}px,0)${e.classList.contains("dentro")?` scale(${1+lim(1-Math.abs((r.top+r.height/2)-H/2)/H)*.06})`:""}`; }
+    for(const d of document.querySelectorAll(".desc")){ const r = d.getBoundingClientRect(); if(r.top<H&&r.bottom>0) d.style.setProperty("--p", lim(.15+(H-r.top)/(H*.6))); }
+    for(const {p,w} of paras){ const r = p.getBoundingClientRect(); if(r.bottom<-100||r.top>H+100) continue;
+      const q = lim((H*.82-r.top)/(r.height+H*.22)) * w.length; w.forEach((s,i) => s.classList.toggle("on", i<q)); }
+  }
+  let atual = null; for(const a of links){ const s = $(a.getAttribute("href")); if(s && s.getBoundingClientRect().top < H*.5) atual = a; }
+  links.forEach(a => a===atual ? a.setAttribute("aria-current","true") : a.removeAttribute("aria-current"));
+  pintaCeu(t||0);
+}
+let pedido = false; const pede = () => { if(!pedido){ pedido = true; requestAnimationFrame(t => { pedido=false; quadroDeRolagem(t); }); } };
+addEventListener("scroll", pede, {passive:true});
+addEventListener("resize", () => { monta(); pede(); });
+addEventListener("pointermove", e => { mx = e.clientX/innerWidth-.5; my = e.clientY/innerHeight-.5; }, {passive:true});
+monta(); pars = [...document.querySelectorAll("[data-par]")]; quadroDeRolagem(0);
+if(!calmo) (function gira(t){ pintaCeu(t); requestAnimationFrame(gira); })(0);
+
+/* ouvir o texto curatorial: gravação da curadora ou voz do navegador */
+(() => {
+  const btn = $("#ouvirBtn"), parar = $("#pararBtn"), st = $("#ouvirSt"), txt = $("#txt");
+  const ps = [...txt.querySelectorAll("p")];
+  const rot = (ic, t) => { $(".ic",btn).textContent = ic; $(".rot",btn).textContent = t; };
+  const marca = i => { ps.forEach((p,k) => p.classList.toggle("lendo", k===i)); txt.classList.toggle("falando", i>=0);
+    if (i>=0 && !calmo) ps[i].scrollIntoView({behavior:"smooth", block:"center"}); };
+  const fim = () => { estado = "parado"; idx = 0; marca(-1); rot("▶","Ouvir o texto"); parar.hidden = true; st.textContent = ""; };
+  let estado = "parado", idx = 0, vez = 0;
+
+  if (AUDIO_CURADORIA) {           // a voz da curadora
+    const a = new Audio(AUDIO_CURADORIA); a.preload = "none";
+    a.addEventListener("timeupdate", () => { if (a.duration) marca(Math.min(ps.length-1, Math.floor(a.currentTime/a.duration*ps.length))); });
+    a.addEventListener("ended", () => { a.currentTime = 0; fim(); });
+    btn.onclick = () => { if (a.paused) { a.play().then(() => { estado="tocando"; rot("❚❚","Pausar"); parar.hidden=false; st.textContent="Na voz da curadora"; }).catch(() => { st.textContent="Não foi possível tocar o áudio"; }); }
+                          else { a.pause(); rot("▶","Continuar"); } };
+    parar.onclick = () => { a.pause(); a.currentTime = 0; fim(); };
+    return;
+  }
+  if (!("speechSynthesis" in window)) { st.textContent = "Leitura em voz alta indisponível neste navegador"; btn.disabled = true; return; }
+  const voz = () => { const v = speechSynthesis.getVoices();
+    return v.find(x => /pt[-_]BR/i.test(x.lang) && /female|feminina|luciana|francisca|maria|google/i.test(x.name)) || v.find(x => /pt[-_]BR/i.test(x.lang)) || v.find(x => /^pt/i.test(x.lang)); };
+  speechSynthesis.getVoices();
+  const le = i => {
+    if (i >= ps.length) return fim();
+    idx = i; marca(i); st.textContent = `Lendo parágrafo ${i+1} de ${ps.length}`;
+    const u = new SpeechSynthesisUtterance(ps[i].textContent.replace(/·/g, ","));
+    u.lang = "pt-BR"; u.rate = .95; const v = voz(); if (v) u.voice = v;
+    const minha = ++vez; u.onend = () => { if (estado==="tocando" && minha===vez) le(i+1); };
+    speechSynthesis.speak(u);
+  };
+  btn.onclick = () => {
+    if (estado === "tocando") { estado = "pausado"; vez++; speechSynthesis.cancel(); rot("▶","Continuar"); st.textContent = `Pausado no parágrafo ${idx+1}`; }
+    else { estado = "tocando"; rot("❚❚","Pausar"); parar.hidden = false; speechSynthesis.cancel(); le(idx); }
+  };
+  parar.onclick = () => { vez++; speechSynthesis.cancel(); fim(); };
+  addEventListener("pagehide", () => speechSynthesis.cancel());
+})();
+
+/* spoiler */
+$("#spBtn").addEventListener("click", () => {
+  const b = $("#spBtn"), p = $("#spPainel"), abre = b.getAttribute("aria-expanded") !== "true";
+  b.setAttribute("aria-expanded", abre); p.hidden = !abre;
+  $(".sp-tx", b).textContent = abre ? "Esconder spoiler" : "Ver spoiler do próximo semestre";
+  if (abre && !calmo) p.scrollIntoView({behavior:"smooth", block:"center"});
+});
+
+/* lupa: ampliar e dar zoom nas obras */
+const lupa = $("#lupa"), palco = $("#palco"); let z = 1, alvo = null;
+const aplica = () => { if(!alvo) return; const r = alvo.naturalWidth ? alvo.naturalWidth/alvo.naturalHeight : 1; alvo.style.width = `calc(min(88vw, 76vh * ${r}) * ${z})`; };
+document.addEventListener("click", e => { const q = e.target.closest(".quadro,.moldura"); if(!q) return;
+  const o = q.querySelector("img,canvas"); palco.innerHTML = "";
+  if(o.tagName==="IMG"){ alvo = el("img"); alvo.onload = aplica; alvo.src = o.src; alvo.alt = o.alt; } else { alvo = el("canvas"); desenha(alvo, +o.dataset.seed); }
+  palco.append(alvo); z = 1; aplica(); $("#lupaLeg").textContent = q.dataset.leg; lupa.showModal(); });
+$("#zp").onclick = () => { z = Math.min(4, z*1.35); aplica(); };
+$("#zm").onclick = () => { z = Math.max(.6, z/1.35); aplica(); };
+$("#zx").onclick = () => lupa.close();
+palco.addEventListener("click", e => { if(e.target===alvo){ z = z>=2.4 ? 1 : z*1.55; aplica(); } else lupa.close(); });
+palco.addEventListener("wheel", e => { if(e.ctrlKey||e.metaKey){ e.preventDefault(); z = lim(z*(e.deltaY<0?1.1:.9),.6,4); aplica(); } }, {passive:false});
+</script>
+</body>
+</html>
