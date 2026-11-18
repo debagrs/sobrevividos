@@ -17,6 +17,7 @@ Depois dos atos vêm os podcasts, as pessoas que participaram e um spoiler do pr
 index.html   página única: estilos, conteúdo e scripts
 img/         desenhos do Redesenhar, já enquadrados (redesenho-01.jpg a redesenho-17.jpg)
 audio/       lugar da gravação do texto curatorial
+fonts/       Fraunces (títulos e texto curatorial), servida pelo próprio site; licença OFL
 ```
 
 É um site estático: não tem etapa de build. No Vercel, importe o repositório com o preset **Other** e publique.

@@ -7,8 +7,10 @@
 <meta name="description" content="Mostra virtual de História da Arte I, Desenho Industrial UFSM, 2026/2. Três atos: Constelações, Ver descrever e reimaginar, Atlas Mnemosyne.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400;1,6..96,500&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:"Fraunces";src:url("fonts/fraunces-normal.woff2") format("woff2-variations"),url("fonts/fraunces-normal.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Fraunces";src:url("fonts/fraunces-italic.woff2") format("woff2-variations"),url("fonts/fraunces-italic.woff2") format("woff2");font-weight:100 900;font-style:italic;font-display:swap}
 /* Plano: sala escura de atlas. Pano negro de Warburg ao fundo, ouro de constelação
    para relações, vermelho de rubrica medieval para marcar atos. Coluna editorial
    estreita, com seções "presas" que dão zoom entre os atos. Tema único, escuro. */
@@ -21,19 +23,20 @@
   --nevoa:#98a1ae;        /* texto secundário */
   --ouro:#d3ab52;         /* relações, links */
   --rubrica:#d9553b;      /* numerais dos atos */
-  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
   --corpo:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
   --mono:"DM Mono",ui-monospace,Menlo,Consolas,monospace;
   --col:min(1120px,100% - 2.5rem);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+blockquote,.ficha,.pods .par,.pessoa h4,.fim,.sp-grande,.curadoria .txt p{font-variation-settings:"opsz" 30,"SOFT" 60}
 body{margin:0;background:var(--noite);color:var(--papel);font:400 1.0625rem/1.65 var(--corpo);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:var(--ouro);text-underline-offset:.2em}
 a:hover{color:var(--papel)}
 :focus-visible{outline:2px solid var(--ouro);outline-offset:3px;border-radius:2px}
-h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;margin:0;text-wrap:balance}
+h1,h2,h3{font-family:var(--display);font-weight:420;font-variation-settings:"opsz" 40,"SOFT" 60;line-height:1.02;margin:0;text-wrap:balance}
 p{margin:0}
 .wrap{width:var(--col);margin-inline:auto}
 .eyebrow{font:500 .72rem/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--nevoa)}
@@ -55,7 +58,7 @@ p{margin:0}
 
 /* abertura */
 .hero{min-height:100vh;display:grid;align-content:end;padding:7rem 0 4rem;position:relative}
-.hero h1{font-size:clamp(3rem,13vw,10rem);overflow-wrap:anywhere;letter-spacing:-.02em}
+.hero h1{font-weight:460;font-variation-settings:"opsz" 72,"SOFT" 80;letter-spacing:-.025em;font-size:clamp(3rem,13vw,10rem);overflow-wrap:anywhere;letter-spacing:-.02em}
 .hero h1 em{font-style:italic;color:var(--ouro)}
 .hero .linha{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.5rem;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--linha)}
 .hero .linha p{color:var(--nevoa);font-size:.95rem}
