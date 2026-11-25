@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sobrevividos</title>
-<meta name="description" content="Mostra virtual de História da Arte I, Desenho Industrial UFSM, 2026/2. Três atos: Constelações, Ver descrever e reimaginar, Atlas Mnemosyne.">
+<meta name="description" content="Sobrevividos: mostra virtual de História da Arte I, Desenho Industrial UFSM, 2026/2. Quatro atos: Constelações, Redesenhar, Atlas Mnemosyne e Projetos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -54,7 +54,8 @@ p{margin:0}
 .nav ul a:hover,.nav ul a[aria-current]{color:var(--papel)}
 .nav ul a:hover::after,.nav ul a[aria-current]::after{transform:scaleX(1)}
 .fio{position:fixed;left:0;top:0;height:2px;width:100%;background:var(--ouro);transform:scaleX(0);transform-origin:left;z-index:21}
-@media(max-width:640px){.nav .marca{display:none}.nav{justify-content:center}}
+@media(max-width:640px){.nav .marca{display:none}.nav{justify-content:center;padding-inline:.75rem}.nav ul{gap:.85rem;font-size:.62rem;letter-spacing:.08em;max-width:100%;overflow-x:auto;scrollbar-width:none}}
+.nav ul a{white-space:nowrap}
 
 /* abertura */
 .hero{min-height:100vh;display:grid;align-content:end;padding:7rem 0 4rem;position:relative}
@@ -110,7 +111,7 @@ p{margin:0}
 .btn.fantasma:hover{box-shadow:inset 0 0 0 1px var(--ouro);background:none;color:var(--ouro)}
 
 /* ato I: rede */
-.rede{position:relative;border:1px solid var(--linha);background:#0a0e15cc;aspect-ratio:16/8;min-height:340px;overflow:hidden}
+.rede{position:relative;width:100%;border:1px solid var(--linha);background:#0a0e15cc;aspect-ratio:16/8;min-height:340px;overflow:hidden}
 .rede svg{position:absolute;inset:0;width:100%;height:100%}
 .rede line{stroke:var(--ouro);stroke-width:.18;opacity:.55;transition:opacity .3s,stroke-width .3s}
 .rede line.apaga{opacity:.08}.rede line.acende{opacity:1;stroke-width:.34}
@@ -151,6 +152,8 @@ p{margin:0}
 .desc .por{font-size:.86rem;color:var(--nevoa)}
 @media(max-width:820px){.trad{grid-template-columns:1fr 1fr}.desc{grid-column:1/-1;order:3}.trad .quadro{margin-top:0!important}}
 
+@media(max-width:640px){.rede{aspect-ratio:auto;height:300px;min-height:0}}
+
 /* ato II: galeria do Redesenhar. A imagem aparece inteira, sem corte */
 .galeria{columns:3 300px;column-gap:clamp(1.2rem,3vw,2.6rem)}
 .obra{break-inside:avoid;margin:0 0 clamp(2rem,5vw,3.6rem);will-change:transform}
@@ -177,10 +180,26 @@ p{margin:0}
 .ficha h4{font:400 clamp(1.8rem,3.4vw,2.8rem)/1.05 var(--display);margin:.5rem 0 1rem}
 .ficha .perg{font:italic 400 1.2rem/1.4 var(--display);color:var(--ouro);margin-bottom:1rem}
 .ficha p{color:var(--nevoa);font-size:.96rem}
-.ficha .peca{margin-top:1.6rem;display:grid;grid-template-columns:120px 1fr;gap:1rem;align-items:center;padding-top:1.2rem;border-top:1px solid var(--linha)}
-.ficha .peca .quadro{aspect-ratio:1}
-.ficha .peca strong{display:block;color:var(--papel);font-weight:500}
 @media(max-width:820px){.atlas{grid-template-columns:1fr}.atlas:nth-of-type(even) .pano{order:0}}
+
+/* ato IV: projetos */
+.projetos{display:grid;gap:clamp(3rem,8vw,6rem)}
+.projeto{display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(1.5rem,4vw,4rem);align-items:center;padding-top:clamp(2rem,5vw,3rem);border-top:1px solid var(--linha);scroll-margin-top:5rem}
+.projeto:nth-child(even) .proj-img{order:2}
+.proj-img>.quadro{aspect-ratio:4/3}
+.proj-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:.6rem}
+.proj-mini .quadro{aspect-ratio:1}
+.proj-txt h4{font:400 clamp(1.8rem,3.4vw,2.8rem)/1.05 var(--display);margin:.5rem 0 .2rem}
+.proj-txt>p:not(.eyebrow):not(.chips){color:var(--nevoa);font-size:.96rem}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.9rem 0 1rem}
+.chip{font:500 .66rem var(--mono);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--linha);color:var(--nevoa);padding:.3rem .55rem}
+.chip.d{border-color:var(--ouro);color:var(--ouro)}
+.fio-link{display:flex;align-items:center;gap:.6rem;margin:1.3rem 0 1rem;font:500 .74rem var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
+.fio-link::before{content:"";flex:none;width:28px;height:1px;background:var(--ouro);transition:width .35s}
+.fio-link:hover::before,.fio-link:focus-visible::before{width:52px}
+.atlas{scroll-margin-top:5rem}
+.atlas:target .pano,.projeto:target .proj-img>.quadro{outline:1px solid var(--ouro);outline-offset:6px}
+@media(max-width:820px){.projeto{grid-template-columns:1fr}.projeto:nth-child(even) .proj-img{order:0}}
 
 /* podcasts */
 .pods{list-style:none;margin:0;padding:0;border-top:1px solid var(--linha)}
@@ -257,6 +276,7 @@ dialog button:hover{border-color:var(--ouro);color:var(--ouro)}
     <li><a href="#ato-1">Ato I</a></li>
     <li><a href="#ato-2">Ato II</a></li>
     <li><a href="#ato-3">Ato III</a></li>
+    <li><a href="#ato-4">Ato IV</a></li>
     <li><a href="#podcasts">Podcasts</a></li>
     <li><a href="#pessoas">Pessoas</a></li>
   </ul>
@@ -268,7 +288,7 @@ dialog button:hover{border-color:var(--ouro);color:var(--ouro)}
     <h1 data-par="-0.12">Sobre<em>vividos</em></h1>
     <div class="linha">
       <p><strong>Desenho Industrial · UFSM</strong>Atlas, história da arte e design</p>
-      <p><strong>Três atos</strong>Constelações · Redesenhar · Atlas Mnemosyne</p>
+      <p><strong>Quatro atos</strong>Constelações · Redesenhar · Atlas Mnemosyne · Projetos</p>
       <p><strong>Abertura em 27 de novembro de 2026</strong>Encontro 15, mostra e roda de síntese</p>
     </div>
   </div>
@@ -292,7 +312,7 @@ dialog button:hover{border-color:var(--ouro);color:var(--ouro)}
       <p>Os podcasts os colocaram em conversa, para que nenhum falasse sozinho. <b>Janson</b> nos entregou a grande narrativa, com começo, meio e cânone. <b>Hans Belting</b> lembrou que, durante séculos, as imagens foram presença e culto antes de serem chamadas de arte. <b>Gombrich</b> contou a história como uma sucessão de artistas resolvendo problemas. <b>Wölfflin</b> nos ensinou a ver a forma, do linear ao pictórico, quase sem precisar de nomes, e Dewey perguntou o que essa forma faz com quem a vive.</p>
       <p>No centro do semestre está <b>Aby Warburg</b> e seu Atlas Mnemosyne: painéis negros onde imagens de épocas distantes se tocam, e onde o intervalo entre elas também pensa. Gombrich, seu biógrafo, nos ajudou a ler esse gesto com alguma distância. <b>Argan</b> mostrou que a história da arte é também a história da cidade.</p>
       <p>Ao redor deles, outras vozes sustentaram a conversa. <b>Linda Nochlin</b>, que pergunta quem ficou fora do cânone e quem decidiu isso. E <b>Ailton Krenak</b>, que nos pede para adiar o fim do mundo e pensar além do humano.</p>
-      <p>A mostra tem três atos. No primeiro, a plataforma Constelações, onde relacionar imagens é uma forma de conhecê-las. No segundo, um jogo de tradução: alguém descreve uma obra sem dizer seu nome, outra pessoa a refaz só com esse texto, às vezes com a ajuda de uma IA. O que se expõe é o desvio entre a obra e a sua volta. No terceiro, os Atlas Mnemosyne da turma e as peças de design que nasceram deles, digitais ou não.</p>
+      <p>A mostra tem quatro atos. No primeiro, a plataforma Constelações, onde relacionar imagens é uma forma de conhecê-las. No segundo, um jogo de tradução: alguém descreve uma obra sem dizer seu nome, outra pessoa a refaz só com esse texto, às vezes com a ajuda de uma IA. O que se expõe é o desvio entre a obra e a sua volta. No terceiro, os Atlas Mnemosyne da turma. No quarto, os projetos executados a partir desses atlas: peças de design, digitais ou não, que levam essas sobrevivências para o presente.</p>
       <p>Somos um curso de Desenho Industrial. Estudamos história da arte porque todo objeto, toda interface, toda embalagem carrega imagens mais velhas do que quem a projetou. O que você vai ver aqui são estudantes aprendendo a reconhecer essas sobrevivências e a decidir, com responsabilidade, o que fazer com elas.</p>
       <p class="assina">Curadoria · Profa. Dra. Débora Aita Gasparetto · Santa Maria, primavera de 2026</p>
     </div>
@@ -358,22 +378,43 @@ dialog button:hover{border-color:var(--ouro);color:var(--ouro)}
   <div class="preso">
     <span class="num" aria-hidden="true">III</span>
     <div class="tit">
-      <p class="eyebrow"><b>Ato III</b> · montagem e projeto</p>
+      <p class="eyebrow"><b>Ato III</b> · montagem</p>
       <h2 id="t3">Atlas <em>Mnemosyne</em></h2>
-      <p>Sobrevivências da história da arte no design: os painéis da turma e as peças que nasceram deles.</p>
+      <p>Os painéis negros da turma, onde imagens de tempos distantes se encontram e o intervalo entre elas também pensa.</p>
     </div>
   </div>
 </section>
 <section class="ato">
   <div class="wrap">
     <div class="intro">
-      <h3>Do painel negro ao objeto projetado.</h3>
-      <p>Cada atlas parte de uma forma, gesto ou questão que se repete no tempo, reúne de 20 a 30 imagens, monta um painel e termina numa peça de design: objeto, sistema visual, espaço ou interface.</p>
+      <h3>Uma forma que volta, de época em época.</h3>
+      <p>Cada atlas parte de uma forma, gesto ou questão que se repete no tempo, reúne de 20 a 30 imagens e monta um painel. O projeto que nasceu de cada um está no Ato IV.</p>
     </div>
     <ol class="etapas" aria-label="As sete etapas do atlas">
       <li>Problema visual</li><li>Pesquisa e coleta</li><li>Seleção e critérios</li><li>Montagem do painel</li><li>Texto crítico</li><li>Desdobramento projetual</li><li>Curadoria e exposição</li>
     </ol>
     <div id="atlas"></div>
+  </div>
+</section>
+
+<!-- ATO IV -->
+<section class="portal" id="ato-4" aria-labelledby="t4">
+  <div class="preso">
+    <span class="num" aria-hidden="true">IV</span>
+    <div class="tit">
+      <p class="eyebrow"><b>Ato IV</b> · projeto</p>
+      <h2 id="t4">Do atlas <em>ao projeto</em></h2>
+      <p>Peças de design executadas a partir dos atlas: objetos, interfaces, sistemas visuais e espaços, digitais ou não.</p>
+    </div>
+  </div>
+</section>
+<section class="ato">
+  <div class="wrap">
+    <div class="intro">
+      <h3>O que sobreviveu no painel vira coisa no mundo.</h3>
+      <p>Cada projeto aponta para o atlas de onde saiu. Siga o fio para voltar ao painel e ver de que imagens ele foi feito.</p>
+    </div>
+    <div class="projetos" id="projetos"></div>
   </div>
 </section>
 
@@ -465,13 +506,24 @@ const ATLAS = [ // Ato III: um item por atlas (individual ou dupla)
   { titulo:"Título do atlas", autoria:"Nome da/o estudante ou dupla",
     pergunta:"Qual forma, gesto ou questão se repete ao longo do tempo?",
     texto:"Trecho do texto crítico que sustenta a montagem e liga teoria e prática.",
-    painel:["","","","","","",""], // imagens do painel (até 7 aparecem)
-    peca:{titulo:"Desdobramento projetual", credito:"Objeto, sistema visual, espaço ou interface", img:""} },
+    painel:["","","","","","",""] }, // imagens do painel (até 7 aparecem)
   { titulo:"Título do atlas", autoria:"Nome da/o estudante ou dupla",
     pergunta:"Como essa sobrevivência opera num objeto de design de hoje?",
     texto:"Trecho do texto crítico que sustenta a montagem e liga teoria e prática.",
-    painel:["","","","","","",""],
-    peca:{titulo:"Desdobramento projetual", credito:"Objeto, sistema visual, espaço ou interface", img:""} },
+    painel:["","","","","","",""] },
+];
+
+const PROJETOS = [ // Ato IV: projetos executados a partir dos atlas
+  // atlas: número do atlas de origem na lista ATLAS (1, 2, ...). suporte: "digital" ou "analógico"
+  // imagens: a primeira é a principal; até mais 3 aparecem embaixo. link: protótipo, vídeo ou portfólio (opcional)
+  { titulo:"Nome do projeto", autoria:"Nome da/o estudante ou dupla", atlas:1,
+    tipo:"Objeto", suporte:"analógico",
+    texto:"O que foi projetado, para quem, e qual imagem do atlas sobrevive nele.",
+    imagens:["","",""], link:"" },
+  { titulo:"Nome do projeto", autoria:"Nome da/o estudante ou dupla", atlas:2,
+    tipo:"Interface", suporte:"digital",
+    texto:"O que foi projetado, para quem, e qual imagem do atlas sobrevive nele.",
+    imagens:["","",""], link:"" },
 ];
 
 const PESSOAS = [ // foto + nome + links
@@ -547,9 +599,24 @@ ATLAS.forEach((t,i) => {
   t.painel.slice(0,7).forEach((img,k) => { const [l,tp,w,ar,dp] = POS[k];
     const q = quadro(img, `${t.titulo}, imagem ${k+1}`, `left:${l}%;top:${tp}%;width:${w}%;aspect-ratio:${ar}`);
     q.dataset.par = dp; q.querySelector(".dentro").removeAttribute("data-par"); q.querySelector(".vago")?.remove(); p.append(q); });
+  a.id = "atlas-" + String(i+1).padStart(2,"0");
   const f = el("div","ficha",`<p class="eyebrow"><b>Atlas ${String(i+1).padStart(2,"0")}</b> · ${esc(t.autoria)}</p><h4>${esc(t.titulo)}</h4><p class="perg">${esc(t.pergunta)}</p><p>${esc(t.texto)}</p>`);
-  const pc = el("div","peca"); pc.append(quadro(t.peca.img, t.peca.titulo), el("p","",`<strong>${esc(t.peca.titulo)}</strong>${esc(t.peca.credito)}`));
-  f.append(pc); a.append(p,f); $("#atlas").append(a);
+  PROJETOS.forEach((pj,k) => { if (pj.atlas === i+1) { const l = el("a","fio-link",`Projeto: ${esc(pj.titulo)}`); l.href = "#projeto-" + String(k+1).padStart(2,"0"); f.append(l); } });
+  a.append(p,f); $("#atlas").append(a);
+});
+
+/* Ato IV: projetos */
+PROJETOS.forEach((pj,i) => {
+  const n = String(i+1).padStart(2,"0"), an = String(pj.atlas).padStart(2,"0"), at = ATLAS[pj.atlas-1];
+  const a = el("article","projeto"); a.id = "projeto-" + n;
+  const fig = el("div","proj-img"); const [prin, ...extras] = pj.imagens.length ? pj.imagens : [""];
+  fig.append(quadro(prin, `${pj.titulo}, imagem principal`));
+  if (extras.length) { const m = el("div","proj-mini"); extras.slice(0,3).forEach((im,k) => m.append(quadro(im, `${pj.titulo}, imagem ${k+2}`))); m.querySelectorAll(".vago").forEach(v=>v.remove()); fig.append(m); }
+  const t = el("div","proj-txt",`<p class="eyebrow"><b>Projeto ${n}</b> · ${esc(pj.autoria)}</p><h4>${esc(pj.titulo)}</h4>
+    <p class="chips"><span class="chip">${esc(pj.tipo)}</span><span class="chip ${pj.suporte==="digital"?"d":""}">${esc(pj.suporte)}</span></p><p>${esc(pj.texto)}</p>`);
+  if (at) { const l = el("a","fio-link",`Nasceu do Atlas ${an}: ${esc(at.titulo)}`); l.href = "#atlas-" + an; t.append(l); }
+  if (pj.link) { const l = el("a","btn fantasma","Ver o projeto <span aria-hidden=\"true\">→</span>"); l.href = pj.link; l.target = "_blank"; l.rel = "noopener"; t.append(l); }
+  a.append(fig, t); $("#projetos").append(a);
 });
 
 /* podcasts */
@@ -563,7 +630,7 @@ PESSOAS.forEach(p => {
   $("#gente").append(el("article","pessoa",`<div class="foto">${p.foto?`<img src="${esc(p.foto)}" alt="Retrato de ${esc(p.nome)}" loading="lazy">`:`<span aria-hidden="true">${ini}</span>`}</div><h4>${esc(p.nome)}</h4><p class="papel">${esc(p.papel)}</p><ul>${links}</ul>`));
 });
 if (PESSOAS.some(p => p.nome.startsWith("Nome d")) )
-  $("#nota").innerHTML = "Os trabalhos, nomes e retratos marcados como <b>espaço reservado</b> são exemplos de estrutura. Para trocar, edite as listas <code>OBRAS</code>, <code>ATLAS</code> e <code>PESSOAS</code> no início do script.";
+  $("#nota").innerHTML = "Os trabalhos, nomes e retratos marcados como <b>espaço reservado</b> são exemplos de estrutura. Para trocar, edite as listas <code>OBRAS</code>, <code>ATLAS</code>, <code>PROJETOS</code> e <code>PESSOAS</code> no início do script.";
 else $("#nota").remove();
 
 /* Ato I: rede de meios */
