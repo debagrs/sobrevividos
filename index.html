@@ -29,6 +29,7 @@
   --col:min(1120px,100% - 2.5rem);
 }
 *{box-sizing:border-box}
+html{overflow-x:clip}
 html{scroll-behavior:smooth}
 blockquote,.ficha,.pods .par,.pessoa h4,.fim,.sp-grande,.curadoria .txt p{font-variation-settings:"opsz" 30,"SOFT" 60}
 body{margin:0;background:var(--noite);color:var(--papel);font:400 1.0625rem/1.65 var(--corpo);overflow-x:hidden;-webkit-font-smoothing:antialiased}
@@ -154,16 +155,38 @@ p{margin:0}
 
 @media(max-width:640px){.rede{aspect-ratio:auto;height:300px;min-height:0}}
 
-/* ato II: galeria do Redesenhar. A imagem aparece inteira, sem corte */
-.galeria{columns:3 300px;column-gap:clamp(1.2rem,3vw,2.6rem)}
-.obra{break-inside:avoid;margin:0 0 clamp(2rem,5vw,3.6rem);will-change:transform}
-.moldura{display:block;width:100%;padding:clamp(.6rem,1.4vw,1rem);background:#0c1017;border:1px solid var(--linha);cursor:zoom-in;position:relative;transition:transform .5s cubic-bezier(.2,.7,.1,1),box-shadow .5s,border-color .5s}
+/* cenas de tela cheia: a imagem ocupa a tela e desce com a rolagem. Nunca é cortada */
+.sala{margin-inline:calc(50% - 50vw);margin-top:clamp(2rem,6vw,4rem)}
+.cena{height:200vh;position:relative}
+.palco{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center;contain:paint}
+.palco::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 75% 70% at 50% 45%,transparent 35%,#070a0fd9 100%);pointer-events:none;z-index:1}
+.fundo{position:absolute;inset:-8%;will-change:transform,opacity}
+.fundo img,.fundo canvas{width:100%;height:100%;object-fit:cover;filter:blur(38px) saturate(1.35) brightness(.45)}
+.cena-btn{position:relative;z-index:2;padding:0;border:0;background:none;cursor:zoom-in;will-change:transform,opacity;transform-origin:50% 40%}
+.cena-btn img,.cena-btn canvas{display:block;width:auto;height:auto;max-width:min(92vw,1500px);max-height:86vh;max-height:86svh;box-shadow:0 60px 120px -40px #000,0 0 0 1px #ffffff12}
+.cena-btn canvas{width:min(68vh,86vw);height:auto}
+.cena-btn:focus-visible{outline:2px solid var(--ouro);outline-offset:8px}
+.cena-cap{position:absolute;z-index:3;left:clamp(1rem,4vw,3rem);bottom:clamp(1rem,4vh,2.6rem);display:flex;align-items:flex-end;gap:1rem;will-change:transform,opacity;text-shadow:0 2px 18px #000}
+.cena-n{font:italic 400 clamp(2.6rem,7vw,5.5rem)/.9 var(--display);color:var(--ouro);font-variant-numeric:tabular-nums}
+.cena-n small{font:500 .7rem var(--mono);letter-spacing:.12em;color:var(--nevoa);font-style:normal;margin-left:.35rem;vertical-align:.35em}
+.cena-cap p{font-size:.95rem;color:var(--papel);max-width:30ch}
+.cena-cap strong{font:400 1.25rem var(--display)}
+.cena-cap .sem{color:var(--nevoa);font-style:italic}
+.cena-cap em{color:var(--nevoa)}
+.cena-dica{position:absolute;z-index:3;right:clamp(1rem,4vw,3rem);bottom:clamp(1.2rem,4vh,2.8rem);font:500 .66rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--nevoa)}
+.indice{margin-top:clamp(3rem,8vw,6rem)}
+.indice .eyebrow{margin-bottom:1.4rem}
+
+/* índice do Redesenhar: miniaturas inteiras, sem corte */
+.galeria{columns:6 130px;column-gap:clamp(1.2rem,3vw,2.6rem)}
+.obra{break-inside:avoid;margin:0 0 1.4rem;will-change:transform}
+.moldura{display:block;width:100%;padding:.45rem;transform-style:preserve-3d;background:#0c1017;border:1px solid var(--linha);cursor:zoom-in;position:relative;transition:transform .5s cubic-bezier(.2,.7,.1,1),box-shadow .5s,border-color .5s}
 .moldura img{width:100%;height:auto;display:block}
 .moldura:hover,.moldura:focus-visible{transform:translateY(-6px);border-color:var(--ouro);box-shadow:0 30px 60px -30px #000,0 0 0 1px #d3ab5233}
 .moldura .lupa{position:absolute;right:1.2rem;bottom:1.2rem;font:500 .65rem var(--mono);letter-spacing:.12em;text-transform:uppercase;background:#070a0fcc;color:var(--papel);padding:.35rem .5rem;opacity:0;transform:translateY(6px);transition:.3s}
 .moldura:hover .lupa,.moldura:focus-visible .lupa{opacity:1;transform:none}
-.obra figcaption{display:flex;flex-wrap:wrap;gap:.2rem .6rem;align-items:baseline;margin-top:.7rem;font-size:.9rem}
-.obra figcaption strong{font:400 1.15rem var(--display);color:var(--papel)}
+.obra figcaption{display:flex;flex-wrap:wrap;gap:.2rem .5rem;align-items:baseline;margin-top:.45rem;font-size:.78rem}
+.obra figcaption strong{font:400 .95rem var(--display);color:var(--papel)}
 .obra figcaption .sem{color:var(--nevoa);font-style:italic}
 .obra figcaption em{flex-basis:100%;color:var(--nevoa);font-size:.85rem}
 
@@ -183,8 +206,11 @@ p{margin:0}
 @media(max-width:820px){.atlas{grid-template-columns:1fr}.atlas:nth-of-type(even) .pano{order:0}}
 
 /* ato IV: projetos */
-.projetos{display:grid;gap:clamp(3rem,8vw,6rem)}
-.projeto{display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(1.5rem,4vw,4rem);align-items:center;padding-top:clamp(2rem,5vw,3rem);border-top:1px solid var(--linha);scroll-margin-top:5rem}
+.projetos{display:grid;gap:clamp(2rem,6vw,4rem)}
+.projeto{scroll-margin-top:-10vh}
+.projeto .cena{margin-inline:calc(50% - 50vw)}
+.proj-corpo{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(1.5rem,4vw,4rem);align-items:start;padding-top:clamp(2rem,5vw,3rem)}
+.proj-corpo.so-texto{grid-template-columns:minmax(0,40rem)}
 .projeto:nth-child(even) .proj-img{order:2}
 .proj-img>.quadro{aspect-ratio:4/3}
 .proj-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:.6rem}
@@ -198,8 +224,8 @@ p{margin:0}
 .fio-link::before{content:"";flex:none;width:28px;height:1px;background:var(--ouro);transition:width .35s}
 .fio-link:hover::before,.fio-link:focus-visible::before{width:52px}
 .atlas{scroll-margin-top:5rem}
-.atlas:target .pano,.projeto:target .proj-img>.quadro{outline:1px solid var(--ouro);outline-offset:6px}
-@media(max-width:820px){.projeto{grid-template-columns:1fr}.projeto:nth-child(even) .proj-img{order:0}}
+.atlas:target .pano,.projeto:target .cena-btn>*{outline:1px solid var(--ouro);outline-offset:6px}
+@media(max-width:820px){.proj-corpo{grid-template-columns:1fr}.projeto:nth-child(even) .proj-img{order:0}}
 
 /* podcasts */
 .pods{list-style:none;margin:0;padding:0;border-top:1px solid var(--linha)}
@@ -240,6 +266,34 @@ p{margin:0}
 .sp-grande{font:400 clamp(3rem,9vw,6rem)/1 var(--display);margin:.6rem 0 1rem}
 .sp-grande em{color:var(--ouro)}
 .sp-txt{color:var(--nevoa)}
+/* microanimações */
+.hero h1 .l{display:inline-block;transition:transform .55s cubic-bezier(.3,1.7,.5,1),color .3s;animation:letra 1s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i) * 55ms + 150ms)}
+.hero h1 .l:hover{transform:translateY(-.09em) rotate(-4deg)}
+@keyframes letra{from{transform:translateY(.55em) rotate(5deg);opacity:0;filter:blur(6px)}}
+.hero .linha p{animation:surge-load .9s cubic-bezier(.2,.8,.2,1) backwards}
+.hero .linha p:nth-child(1){animation-delay:.9s}.hero .linha p:nth-child(2){animation-delay:1.02s}.hero .linha p:nth-child(3){animation-delay:1.14s}
+@keyframes surge-load{from{opacity:0;translate:0 24px}}
+.btn{transition:background .25s,gap .25s,translate .35s cubic-bezier(.3,1.5,.5,1),box-shadow .25s}
+.cursor{position:fixed;left:0;top:0;width:30px;height:30px;margin:-15px 0 0 -15px;border:1px solid var(--ouro);border-radius:50%;pointer-events:none;z-index:70;display:grid;place-items:center;opacity:0;transition:width .35s cubic-bezier(.3,1.4,.5,1),height .35s cubic-bezier(.3,1.4,.5,1),margin .35s cubic-bezier(.3,1.4,.5,1),background .3s,opacity .3s,border-color .3s}
+.cursor span{font:500 .56rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--noite);opacity:0;transition:opacity .2s}
+.cursor.on{opacity:1}
+.cursor.link{width:46px;height:46px;margin:-23px 0 0 -23px;background:#d3ab5226}
+.cursor.zoom{width:86px;height:86px;margin:-43px 0 0 -43px;background:var(--ouro);border-color:var(--ouro)}
+.cursor.zoom span{opacity:1}
+@media (pointer:coarse){.cursor{display:none}}
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion:no-preference){
+    .intro>*,.tres>div,.ficha>*,.proj-txt>*,.pods li,.pessoa,.etapas li,.spoiler h3,.indice .obra,.curadoria aside>*{animation:surge linear both;animation-timeline:view();animation-range:entry 0% cover 28%}
+    .tres>div:nth-child(2),.pessoa:nth-child(3n+2),.intro>*:nth-child(2){animation-range:entry 10% cover 34%}
+    .tres>div:nth-child(3),.pessoa:nth-child(3n){animation-range:entry 18% cover 40%}
+    .pano,.proj-mini .quadro{animation:abre-img linear both;animation-timeline:view();animation-range:entry 0% cover 38%}
+    .etapas li::before{display:inline-block;animation:gira-num linear both;animation-timeline:view();animation-range:entry 0% cover 30%}
+  }
+}
+@keyframes surge{from{opacity:.08;translate:0 56px}to{opacity:1;translate:0 0}}
+@keyframes abre-img{from{clip-path:inset(16% 10% 16% 10%)}to{clip-path:inset(0 0 0 0)}}
+@keyframes gira-num{from{transform:rotateX(90deg);opacity:0}to{transform:none;opacity:1}}
+
 footer{border-top:1px solid var(--linha);padding:3rem 0 4rem;background:#070a0fdd}
 footer .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2rem}
 footer p{color:var(--nevoa);font-size:.9rem}
@@ -257,6 +311,8 @@ dialog button{font:500 .8rem var(--mono);background:none;color:var(--papel);bord
 dialog button:hover{border-color:var(--ouro);color:var(--ouro)}
 
 @media (prefers-reduced-motion:reduce){
+  .cena{height:auto}.palco{position:relative;height:auto;display:flex;flex-direction:column;align-items:center;gap:1rem;padding:3rem 1rem}
+  .fundo,.palco::after,.cena-dica,.cursor{display:none}.cena-cap{position:static}
   html{scroll-behavior:auto}
   *{animation:none!important;transition:none!important}
   .portal{height:auto}.portal .preso{position:static;height:auto;padding:6rem 0}
@@ -268,6 +324,7 @@ dialog button:hover{border-color:var(--ouro);color:var(--ouro)}
 <body>
 <a class="skip" href="#curadoria">Pular para o texto curatorial</a>
 <canvas id="ceu" aria-hidden="true"></canvas>
+<div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
 <div class="fio" id="fio" aria-hidden="true"></div>
 
 <nav class="nav" aria-label="Seções da mostra">
@@ -369,7 +426,11 @@ dialog button:hover{border-color:var(--ouro);color:var(--ouro)}
       <h3>Cada desenho nasceu de um texto, e não de uma imagem.</h3>
       <p>Quem desenhou não viu a obra de partida: recebeu só a descrição escrita por um colega, sem nome, sem autoria, sem período. O que está aqui é a imagem que voltou, com tudo o que a palavra deixou passar e tudo o que inventou. Clique em qualquer desenho para ampliar.</p>
     </div>
-    <div class="galeria" id="galeria"></div>
+    <div class="sala" id="sala"></div>
+    <div class="indice">
+      <p class="eyebrow"><b>Índice</b> · todos os desenhos</p>
+      <div class="galeria" id="galeria"></div>
+    </div>
   </div>
 </section>
 
@@ -580,14 +641,33 @@ function quadro(img, legenda, estilo){
 }
 
 /* Ato II */
+/* cena de tela cheia: usada no Ato II e no Ato IV */
+function cena({src, w, h, fundo, leg, alt, n, total, cap, id}){
+  const s = el("section","cena"); if (id) s.id = id;
+  const pal = el("div","palco"), f = el("div","fundo"), b = el("button","cena-btn");
+  b.type = "button"; b.dataset.leg = leg; b.setAttribute("aria-label","Ampliar: "+leg);
+  if (src) {
+    const bg = el("img"); bg.src = fundo || src; bg.alt = ""; bg.loading = "lazy"; bg.decoding = "async"; f.append(bg);
+    const im = el("img"); im.src = src; if (w) { im.width = w; im.height = h; } im.alt = alt; im.loading = "lazy"; im.decoding = "async"; b.append(im);
+  } else {
+    const sd = semente++, c1 = el("canvas"), c2 = el("canvas"); desenha(c1, sd); desenha(c2, sd);
+    c2.dataset.seed = sd; c2.setAttribute("role","img"); c2.setAttribute("aria-label","Espaço reservado para "+leg); f.append(c1); b.append(c2);
+  }
+  pal.append(f, b, el("div","cena-cap",`<span class="cena-n">${n}<small>/ ${total}</small></span>${cap}`), el("span","cena-dica","clique para ampliar"));
+  s.append(pal); return s;
+}
+const pad = k => String(k).padStart(2,"0");
+
 OBRAS.forEach((o,i) => {
-  const n = String(i+1).padStart(2,"0"), leg = `Redesenho ${n}${o.autoria ? " · " + o.autoria : ""}`;
-  const f = el("figure","obra"); f.dataset.par = [.04,-.03,.06,-.05,.02][i%5];
-  const b = el("button","moldura"); b.type = "button"; b.dataset.leg = leg; b.setAttribute("aria-label","Ampliar: "+leg);
-  const im = el("img"); im.src = o.img; im.width = o.w; im.height = o.h; im.loading = "lazy"; im.decoding = "async";
-  im.alt = `Redesenho ${n}, desenho feito a partir de uma descrição${o.autoria ? ", por " + o.autoria : ""}`;
-  b.append(im, el("span","lupa","ampliar +"));
-  f.append(b, el("figcaption","",`<span class="eyebrow"><b>${n}</b></span> ${o.autoria ? `<strong>${esc(o.autoria)}</strong>` : `<span class="sem">autoria a confirmar</span>`}${o.obraDePartida ? `<em>a partir de ${esc(o.obraDePartida)}</em>` : ""}`));
+  const n = pad(i+1), leg = `Redesenho ${n}${o.autoria ? " · " + o.autoria : ""}`, mini = o.img.replace("img/","img/mini/");
+  const alt = `Redesenho ${n}, desenho feito a partir de uma descrição${o.autoria ? ", por " + o.autoria : ""}`;
+  const quem = o.autoria ? `<strong>${esc(o.autoria)}</strong>` : `<span class="sem">autoria a confirmar</span>`;
+  $("#sala").append(cena({src:o.img, w:o.w, h:o.h, fundo:mini, leg, alt, n, total:pad(OBRAS.length), id:"redesenho-"+n,
+    cap:`<p>${quem}${o.obraDePartida ? `<br><em>a partir de ${esc(o.obraDePartida)}</em>` : ""}</p>`}));
+  const f = el("figure","obra"); f.dataset.par = [.03,-.02,.04,-.03,.02,-.04][i%6];
+  const a = el("a","moldura"); a.href = "#redesenho-"+n; a.setAttribute("aria-label","Ir para o redesenho "+n);
+  const im = el("img"); im.src = mini; im.alt = ""; im.loading = "lazy"; im.decoding = "async"; im.width = Math.round(o.w*600/Math.max(o.w,o.h)); im.height = Math.round(o.h*600/Math.max(o.w,o.h));
+  a.append(im); f.append(a, el("figcaption","",`<span class="eyebrow"><b>${n}</b></span> ${quem}`));
   $("#galeria").append(f);
 });
 
@@ -607,16 +687,20 @@ ATLAS.forEach((t,i) => {
 
 /* Ato IV: projetos */
 PROJETOS.forEach((pj,i) => {
-  const n = String(i+1).padStart(2,"0"), an = String(pj.atlas).padStart(2,"0"), at = ATLAS[pj.atlas-1];
+  const n = pad(i+1), an = pad(pj.atlas), at = ATLAS[pj.atlas-1];
   const a = el("article","projeto"); a.id = "projeto-" + n;
-  const fig = el("div","proj-img"); const [prin, ...extras] = pj.imagens.length ? pj.imagens : [""];
-  fig.append(quadro(prin, `${pj.titulo}, imagem principal`));
-  if (extras.length) { const m = el("div","proj-mini"); extras.slice(0,3).forEach((im,k) => m.append(quadro(im, `${pj.titulo}, imagem ${k+2}`))); m.querySelectorAll(".vago").forEach(v=>v.remove()); fig.append(m); }
+  const [prin, ...extras] = pj.imagens.length ? pj.imagens : [""];
+  a.append(cena({src:prin, leg:pj.titulo, alt:`${pj.titulo}, de ${pj.autoria}`, n, total:pad(PROJETOS.length),
+    cap:`<p><strong>${esc(pj.titulo)}</strong><br>${esc(pj.autoria)}</p>`}));
+  const corpo = el("div","proj-corpo");
+  if (extras.length) { const fig = el("div","proj-img"), m = el("div","proj-mini");
+    extras.slice(0,3).forEach((im,k) => m.append(quadro(im, `${pj.titulo}, imagem ${k+2}`))); m.querySelectorAll(".vago").forEach(v=>v.remove()); fig.append(m); corpo.append(fig); }
+  else corpo.classList.add("so-texto");
   const t = el("div","proj-txt",`<p class="eyebrow"><b>Projeto ${n}</b> · ${esc(pj.autoria)}</p><h4>${esc(pj.titulo)}</h4>
     <p class="chips"><span class="chip">${esc(pj.tipo)}</span><span class="chip ${pj.suporte==="digital"?"d":""}">${esc(pj.suporte)}</span></p><p>${esc(pj.texto)}</p>`);
   if (at) { const l = el("a","fio-link",`Nasceu do Atlas ${an}: ${esc(at.titulo)}`); l.href = "#atlas-" + an; t.append(l); }
   if (pj.link) { const l = el("a","btn fantasma","Ver o projeto <span aria-hidden=\"true\">→</span>"); l.href = pj.link; l.target = "_blank"; l.rel = "noopener"; t.append(l); }
-  a.append(fig, t); $("#projetos").append(a);
+  corpo.append(t); a.append(corpo); $("#projetos").append(a);
 });
 
 /* podcasts */
@@ -672,6 +756,8 @@ const lim = (v,a=0,b=1) => Math.min(b,Math.max(a,v));
 const portais = [...document.querySelectorAll(".portal")].map(s => ({s, n:$(".num",s), t:$(".tit",s)}));
 const links = [...document.querySelectorAll(".nav ul a")];
 let pars = [];
+const cenas = [...document.querySelectorAll(".cena")].map(c => ({c, f:$(".fundo",c), b:$(".cena-btn",c), cap:$(".cena-cap",c), d:$(".cena-dica",c)}));
+const suave = x => x<.5 ? 2*x*x : 1 - Math.pow(-2*x+2,2)/2;
 function quadroDeRolagem(t){
   const H = innerHeight, max = document.documentElement.scrollHeight - H;
   $("#fio").style.transform = `scaleX(${lim(scrollY/max)})`;
@@ -682,6 +768,13 @@ function quadroDeRolagem(t){
       tit.style.transform = `scale(${.86+lim(p*1.4)*.14})`; tit.style.opacity = lim(.4+p*1.6) * lim(1.9 - p*.9); }
     for(const e of pars){ const r = e.parentElement.getBoundingClientRect(); if(r.bottom<-200||r.top>H+200) continue;
       const k = +e.dataset.par; e.style.transform = `translate3d(0,${((r.top+r.height/2)-H/2)*-k}px,0)${e.classList.contains("dentro")?` scale(${1+lim(1-Math.abs((r.top+r.height/2)-H/2)/H)*.06})`:""}`; }
+    for(const {c,f,b,cap,d:dica} of cenas){ const r = c.getBoundingClientRect(); if(r.bottom<0||r.top>H) continue;
+      const ent = lim(1 - r.top/H), p = lim(-r.top/(r.height-H)), d = suave(lim((p-.36)/.64));
+      f.style.opacity = ent * (1 - d*.9); f.style.transform = `scale(${1.14 - ent*.08 + d*.12}) translate3d(0,${-d*5}%,0)`;
+      b.style.transform = `translate3d(0,${(1-ent)*14 + d*64}vh,0) scale(${1.07 - ent*.07 - d*.52}) rotate(${d*-2.5}deg)`;
+      b.style.opacity = 1 - d*.55;
+      const o = lim(ent*1.5) * lim(1 - d*1.6);
+      cap.style.transform = `translate3d(0,${(1-ent)*50 - d*30}px,0)`; cap.style.opacity = o; dica.style.opacity = o*.9; }
     for(const d of document.querySelectorAll(".desc")){ const r = d.getBoundingClientRect(); if(r.top<H&&r.bottom>0) d.style.setProperty("--p", lim(.15+(H-r.top)/(H*.6))); }
     for(const {p,w} of paras){ const r = p.getBoundingClientRect(); if(r.bottom<-100||r.top>H+100) continue;
       const q = lim((H*.82-r.top)/(r.height+H*.22)) * w.length; w.forEach((s,i) => s.classList.toggle("on", i<q)); }
@@ -694,6 +787,7 @@ let pedido = false; const pede = () => { if(!pedido){ pedido = true; requestAnim
 addEventListener("scroll", pede, {passive:true});
 addEventListener("resize", () => { monta(); pede(); });
 addEventListener("pointermove", e => { mx = e.clientX/innerWidth-.5; my = e.clientY/innerHeight-.5; }, {passive:true});
+document.querySelectorAll(".intro h3").forEach((h,i) => h.dataset.par = i%2 ? .06 : -.05);
 monta(); pars = [...document.querySelectorAll("[data-par]")]; quadroDeRolagem(0);
 if(!calmo) (function gira(t){ pintaCeu(t); requestAnimationFrame(gira); })(0);
 
@@ -744,10 +838,33 @@ $("#spBtn").addEventListener("click", () => {
   if (abre && !calmo) p.scrollIntoView({behavior:"smooth", block:"center"});
 });
 
+/* título letra a letra */
+(() => { let k = 0; const anda = n => { if (n.nodeType === 3) { const fr = document.createDocumentFragment();
+    [...n.textContent].forEach(ch => { const sp = el("span","l"); sp.textContent = ch; sp.style.setProperty("--i", k++); sp.setAttribute("aria-hidden","true"); fr.append(sp); }); n.replaceWith(fr); }
+    else [...n.childNodes].forEach(anda); };
+  const h = $(".hero h1"); h.setAttribute("aria-label", h.textContent); [...h.childNodes].forEach(anda); })();
+
+/* cursor, botões magnéticos e molduras que inclinam (só com mouse e com movimento permitido) */
+if (!calmo && matchMedia("(pointer:fine)").matches) {
+  const cur = $("#cursor"), rot = $("span",cur); let cx2 = -100, cy2 = -100, tx = -100, ty = -100;
+  addEventListener("pointermove", e => { tx = e.clientX; ty = e.clientY; cur.classList.add("on");
+    const z = e.target.closest?.(".quadro,.cena-btn"), l = !z && e.target.closest?.("a,button,[tabindex]");
+    cur.classList.toggle("zoom", !!z); cur.classList.toggle("link", !!l); rot.textContent = z ? "ampliar" : ""; }, {passive:true});
+  document.addEventListener("pointerleave", () => cur.classList.remove("on"));
+  (function segue(){ cx2 += (tx-cx2)*.2; cy2 += (ty-cy2)*.2; cur.style.transform = `translate3d(${cx2}px,${cy2}px,0)`; requestAnimationFrame(segue); })();
+  document.querySelectorAll(".btn").forEach(bt => {
+    bt.addEventListener("pointermove", e => { const r = bt.getBoundingClientRect(); bt.style.translate = `${(e.clientX-r.left-r.width/2)*.25}px ${(e.clientY-r.top-r.height/2)*.4}px`; });
+    bt.addEventListener("pointerleave", () => bt.style.translate = "0 0"); });
+  document.querySelectorAll(".moldura,.proj-mini .quadro").forEach(m => {
+    m.addEventListener("pointermove", e => { const r = m.getBoundingClientRect(), x = (e.clientX-r.left)/r.width-.5, y = (e.clientY-r.top)/r.height-.5;
+      m.style.transform = `perspective(700px) rotateY(${x*10}deg) rotateX(${-y*10}deg) translateY(-4px)`; });
+    m.addEventListener("pointerleave", () => m.style.transform = ""); });
+}
+
 /* lupa: ampliar e dar zoom nas obras */
 const lupa = $("#lupa"), palco = $("#palco"); let z = 1, alvo = null;
 const aplica = () => { if(!alvo) return; const r = alvo.naturalWidth ? alvo.naturalWidth/alvo.naturalHeight : 1; alvo.style.width = `calc(min(88vw, 76vh * ${r}) * ${z})`; };
-document.addEventListener("click", e => { const q = e.target.closest(".quadro,.moldura"); if(!q) return;
+document.addEventListener("click", e => { const q = e.target.closest(".quadro,.cena-btn"); if(!q) return;
   const o = q.querySelector("img,canvas"); palco.innerHTML = "";
   if(o.tagName==="IMG"){ alvo = el("img"); alvo.onload = aplica; alvo.src = o.src; alvo.alt = o.alt; } else { alvo = el("canvas"); desenha(alvo, +o.dataset.seed); }
   palco.append(alvo); z = 1; aplica(); $("#lupaLeg").textContent = q.dataset.leg; lupa.showModal(); });
