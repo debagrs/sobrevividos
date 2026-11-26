@@ -17,6 +17,7 @@ Depois dos atos vêm os podcasts, as pessoas que participaram e um spoiler do pr
 ```
 index.html   página única: estilos, conteúdo e scripts
 img/         desenhos do Redesenhar, já enquadrados (redesenho-01.jpg a redesenho-17.jpg)
+img/mini/    versões pequenas dos desenhos, usadas no fundo desfocado das cenas e no índice
 audio/       lugar da gravação do texto curatorial
 fonts/       Fraunces (títulos e texto curatorial), servida pelo próprio site; licença OFL
 ```
@@ -35,3 +36,7 @@ O conteúdo fica num bloco no início do `<script>` do `index.html`, marcado com
 - `AUDIO_CURADORIA`: caminho da gravação do texto curatorial, por exemplo `"audio/curadoria.mp3"`. Com o campo vazio, a leitura usa a voz do navegador.
 
 Uma imagem nova vai para `img/`, e o caminho entra na lista, por exemplo `img/atlas-ana-01.jpg`.
+
+## Movimento
+
+Cada desenho do Ato II e a imagem principal de cada projeto do Ato IV aparecem numa cena de tela cheia. A imagem fica inteira, sem corte, sobre um fundo desfocado dela mesma, e desce e encolhe conforme a rolagem. Quem pede menos movimento no sistema (`prefers-reduced-motion`) vê as mesmas imagens paradas, uma abaixo da outra.
